@@ -1,0 +1,77 @@
+<style>
+    input[type="text"] {
+        background: transparent;
+        color: var(--todo-text-color);
+    }
+
+    label > input[type="checkbox"] {
+        display: none;
+    }
+        
+    label > input[type="checkbox"] + *::before {
+        content: "";
+        display: inline-block;
+        vertical-align: bottom;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 10%;
+        border-style: solid;
+        border-width: 0.1rem;
+        border-color: gray;
+        border-radius: 2rem;
+        margin-right: 0.5rem;
+    }
+        
+    label > input[type="checkbox"]:checked + *::before {
+        content: "✓";
+        line-height: 2rem;
+        font-weight: bold;
+        color: var(--todo-text-color);
+        text-align: center;
+        background: var(--main-accent-color);
+        border-color: var(--main-accent-color);
+    }
+
+    label > input[type="checkbox"]:checked + * > input[type="text"] {
+        color: silver;
+        text-decoration: line-through;
+    }
+        
+    label > input[type="checkbox"] + * > button {
+        visibility: hidden;
+    }
+        
+    label > input[type="checkbox"]:checked + * > button {
+        visibility: visible;
+        background: none;
+        border: none;
+        font-size: 1.3rem
+    }
+        
+    label > input[type="checkbox"] + * > input[type="text"] {
+        line-height: 1.5rem;
+        font-size: 1.5rem;
+        border: 0;
+        margin-bottom: 2px;
+    }
+
+    :host(:first-of-type) label > input[type="checkbox"] + * > input[type="text"] {
+        border: 1px solid gray;
+        border-radius: 6px;
+        margin-left: 3.1rem;
+    }
+    
+    :host(:first-of-type) label > input[type="checkbox"] + *::before {
+        display: none;
+    }
+</style>
+<form>
+    <label>
+        <input type="hidden" name="id">
+        <input type="checkbox" name="completed">
+        <span>
+            <input type="text" name="title" required size="40" maxlength="80">
+            <button type="button" name="delete">&#x274C;</button>
+        </span>
+    </label>
+</form>
