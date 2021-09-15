@@ -17,7 +17,7 @@ The completed solution to this exercise can be found in this repo's `solution` b
 # Run the application
 1. Start the required PostgreSQL database:
    ```
-   docker run --ulimit memlock=-1:-1 -it --rm=true --memory-swappiness=0 --name tododb -e POSTGRES_USER=todo -e POSTGRES_PASSWORD=todo -e POSTGRES_DB=tododb -p 5432:5432 postgres:13
+   docker run -it --rm --name tododb -e POSTGRES_USER=todo -e POSTGRES_PASSWORD=todo -e POSTGRES_DB=tododb -p 5432:5432 postgres:13
    ```
 2. Run the application:
    ```shell
