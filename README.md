@@ -449,6 +449,8 @@ The other issues relate to properties within `src/main/resources/application.pro
 
     2. Similarly, find and remove `spring.datasource.username=todo` and `spring.datasource.password=todo` as well
 
+---
+
 There are a couple of other properties that the analysis didn't find.
 1. Find `spring.jpa.hibernate.ddl-auto=create-drop` and replace with `quarkus.hibernate-orm.database.generation=drop-and-create` according to the [Quarkus Hibernate ORM and JPA Guide](https://quarkus.io/guides/hibernate-orm). This will allow Quarkus (& Hibernate under the covers) to automatically create the database schema upon startup.
 2. Add `quarkus.datasource.metrics.enabled=true` so that Quarkus will automatically expose datasource-related metrics to Micrometer.
