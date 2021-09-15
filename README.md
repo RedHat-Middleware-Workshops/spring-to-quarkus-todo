@@ -526,7 +526,7 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
        
        In this example, the ip address is `172.17.0.2`.
 
-6. Now run the native executable image, **making sure to substitute the ip address in the previous step**
+6. Now run the native executable image, **making sure to substitute the ip address gathered in the previous step**
    ```shell
    docker run -i --rm -p 8080:8080 -e QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://172.17.0.2:5432/tododb -e QUARKUS_DATASOURCE_USERNAME=todo -e QUARKUS_DATASOURCE_PASSWORD=todo spring-to-quarkus-todo:0.0.1-SNAPSHOT
    ```
