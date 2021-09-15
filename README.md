@@ -380,7 +380,7 @@ Some issues that weren't caught by the tool but also need to be fixed:
 
     2. Add the `org.springframework.boot:spring-boot-autoconfigure` dependency as an `optional` Maven dependency. An `optional` dependency is available when an application compiles but is not packaged with the application at runtime. Doing this would allow the application to compile without modification, but you would also need to maintain a Spring version along with the Quarkus application.
    
-      To use this option, add this to the `<dependencies>` section of `pom.xml`:
+       To use this option, add this to the `<dependencies>` section of `pom.xml`:
        ```xml
        <dependency>
          <groupId>org.springframework.boot</groupId>
