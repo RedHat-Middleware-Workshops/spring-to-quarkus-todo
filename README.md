@@ -32,7 +32,7 @@ The completed solution to this exercise can be found in this repo's `solution` b
    
    INFO 33595 --- [  restartedMain] com.acme.todo.TodoApplication            : Started TodoApplication in 5.073 seconds (JVM running for 5.544)
    ```
-3. Open browser to http://localhost:8080. You should see
+3. Open your browser to http://localhost:8080. You should see
 
    ![Initial Application Screen](images/spring-todo-1.png)
 
