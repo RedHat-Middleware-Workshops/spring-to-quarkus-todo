@@ -7,6 +7,7 @@ The completed solution to this exercise can be found in this repo's `solution` b
 # Local machine requirements
 - A Java 11 runtime
 - A container runtime (i.e. [Docker](https://www.docker.com/) or [Podman](https://podman.io/))
+    - `docker` commands are used throughout this example
 - Access to the internet
 
 # Run the application
