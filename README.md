@@ -78,7 +78,9 @@ For this exercise we have [pre-built a container image](https://quay.io/reposito
    > 
    > If you are on Windows command line, you may need to substitute the command with `docker run -it -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest`.
    >
-   > If on Windows PowerShell, you may need to substitute the command with `docker run -it -v ${PWD}:/opt/project quay.io/edeandrea/mta-cli:latest`. If none of those options work for you, [see here](https://stackoverflow.com/questions/41485217/mount-current-directory-as-a-volume-in-docker-on-windows-10) for more information on obtaining the current working directory for the `-v` option.
+   > If on Windows PowerShell, you may need to substitute the command with `docker run -it -v ${PWD}:/opt/project quay.io/edeandrea/mta-cli:latest`.
+   > 
+   > If none of those options work for you, [see here](https://stackoverflow.com/questions/41485217/mount-current-directory-as-a-volume-in-docker-on-windows-10) for more information on obtaining the current working directory for the `-v` option.
 
 2. Once completed you will see something like:
    ```shell
