@@ -417,8 +417,9 @@ Now let's re-analyze the application to see how much of the migration has been c
 3. Clicking back to the **Issues** tab should only show a single category of issues: `Replace Spring datasource property key/value pairs with Quarkus properties`.
    ![Issues after pom.xml fixes](images/mta-issues-after-pom-fixes.png)
 
-4. Before proceeding, let's start the newly-converted Quarkus application in [Quarkus's Dev Mode](https://quarkus.io/guides/maven-tooling#dev-mode). In the terminal, run `./mvnw clean quarkus:dev`.
-5. The Quarkus application should start up, and you should see the Quarkus banner:
+4. Before proceeding, let's start the newly-converted Quarkus application in [Quarkus's Dev Mode](https://quarkus.io/guides/maven-tooling#dev-mode).
+5. In the terminal, run `./mvnw clean quarkus:dev`.
+6. The Quarkus application should start up, and you should see the Quarkus banner:
    ```shell
    INFO  [io.qua.dev.pos.dep.PostgresqlDevServicesProcessor] (build-49) Dev Services for PostgreSQL started.
    __  ____  __  _____   ___  __ ____  ______ 
@@ -432,8 +433,8 @@ Now let's re-analyze the application to see how much of the migration has been c
 
    > Notice the line `Dev Services for PostgreSQL started`. [Quarkus Dev Services](https://quarkus.io/guides/dev-services) noticed the PostgreSQL extension on the classpath and started a PostgreSQL container image automatically, while also automatically setting all the configuration properties for the application to communicate with it!
 
-6. Re-open your browser to http://localhost:8080.
-7. You'll notice a bunch of exceptions in the console log. This is because we haven't finished converting the application. We still need to migrate some Spring datasource configuration.
+7. Re-open your browser to http://localhost:8080.
+8. You'll notice a bunch of exceptions in the console log. This is because we haven't finished converting the application. We still need to migrate some Spring datasource configuration.
 
 # Migrate Data source properties
 The other issues relate to properties within `src/main/resources/application.properties`.
