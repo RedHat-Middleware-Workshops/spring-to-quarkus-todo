@@ -213,6 +213,8 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    </dependency>
    ```
 
+---
+
 Some issues that weren't caught by the tool but also need to be fixed:
 1. The `io.micrometer:micrometer-registry-prometheus` dependency. This needs to be swapped for the [Quarkus Micrometer extension](http://quarkus.io/guides/micrometer). In `pom.xml`, find
    ```xml
