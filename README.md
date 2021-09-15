@@ -471,6 +471,67 @@ There are a couple of other properties that the analysis didn't find.
 5. Add `quarkus.micrometer.export.prometheus.path=/actuator/prometheus` to map the Prometheus metrics endpoint from `/q/metrics` to `/actuator/prometheus`
 6. Add `quarkus.smallrye-health.root-path=/actuator/health` to map the health endpoint from `/q/health` to `/actuator/health`
 7. Add `quarkus.smallrye-openapi.path=/openapi` to map the openapi endpoint from `/q/openapi` to `/openapi`
-8. Save your changes and refresh the browser page. Everything should work as before!
-9. Navigate to http://localhost:8080/q/dev to view the [Quarkus Dev UI](https://quarkus.io/guides/dev-ui), a landing page for interacting with your application. All extensions used by the application should show up here along with links to their documentation. Some extensions provide the ability to interact and modify configuration right from the UI.
-   > [Continuous testing](https://quarkus.io/guides/continuous-testing) can be enabled and controlled from within the UI. [A video demo is available](https://youtu.be/0JiE-bRt-GU) showcasing continuous testing features.
+8. Add `quarkus.swagger-ui.always-include=true` so that Quarkus will always expose the Swagger UI endpoint. By default, it is only exposed in Dev Mode.
+9. Save your changes and refresh the browser page. Everything should work as before!
+10. Navigate to http://localhost:8080/q/dev to view the [Quarkus Dev UI](https://quarkus.io/guides/dev-ui), a landing page for interacting with your application. All extensions used by the application should show up here along with links to their documentation. Some extensions provide the ability to interact and modify configuration right from the UI.
+    > [Continuous testing](https://quarkus.io/guides/continuous-testing) can be enabled and controlled from within the UI. [A video demo is available](https://youtu.be/0JiE-bRt-GU) showcasing continuous testing features.
+
+11. Hit `CTRL-C` in your terminal once done.
+
+# Bonus
+As a bonus exercise, let's create and run a Quarkus native image. The easiest way to create a container image containing a native executable is to leverage one of the [Quarkus container-image extensions](https://quarkus.io/guides/building-native-image#using-the-container-image-extensions). If one of those extensions is present, then creating a container image for the native executable is essentially a matter of executing a single command. These extensions also allow us to build a native executable without the need to [install and configure GraalVM](https://quarkus.io/guides/building-native-image#graalvm) on our local machine.
+
+   > **NOTE:** Native image creation is a CPU and memory-intensive operation. It may or may not work depending on your hardware specs. You may need at lease 6 GB of RAM allocated to your Docker daemon.
+
+Since we already have a Docker runtime we'll use the [Docker container image extension](https://quarkus.io/guides/container-image#docker) to perform the container image build.
+
+1. To install the extension into the project, return to the terminal and run `./mvnw quarkus:add-extension -Dextensions="container-image-docker"`
+2. Since this is an existing non-Quarkus application, we need to create the `Dockerfile` for the native image.
+   > If we had created a new Quarkus application from [Code Quarkus](https://code.quarkus.io), this would have been created for us.
+
+    1. Create the directory `src/main/docker`
+    2. Inside `src/main/docker`, create the file `Dockerfile.native`
+    3. Paste in the following into `Dockerfile.native`:
+       ```dockerfile
+       FROM quay.io/quarkus/quarkus-distroless-image:1.0
+       COPY target/*-runner /application
+
+       EXPOSE 8080
+       USER nonroot
+
+       CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
+       ```
+      
+    4. Save and close `src/main/docker/Dockerfile.native`
+   
+3. Building a native image can be accomplished by running `./mvnw package -Pnative -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Dquarkus.container-image.group=` in the terminal. Building a native image may take several minutes to complete depending on the specs of your machine and how much CPU/RAM is available.
+   > There are many [container image options](https://quarkus.io/guides/container-image#container-image-options) available. The `quarkus.container-image.group=` option removes the `${user.name}` from the final image name. If we did not include this option, the final image would be created as `${user.name}/${quarkus.application.name}:${quarkus.application.version}`. This simply makes it easier to write this tutorial without having to worry about people's usernames!
+ 
+   > **NOTE:** If the native image build fails due to an out of memory error, you may need to increase the memory size of your docker daemon to a minimum of 6GB. 
+
+4. Once the native image build is complete, start the PostgreSQL database container needed by the application:
+   ```shell
+   docker run -it --rm --name tododb -e POSTGRES_USER=todo -e POSTGRES_PASSWORD=todo -e POSTGRES_DB=tododb -p 5432:5432 postgres:13
+   ```
+   
+   > Quarkus Dev Services is only available in development mode. Running a native executable runs in production mode.
+
+5. Before starting the native image container, we first need to get the internal ip address of the running PostgreSQL DB so that our Quarkus application can connect to it.
+    - In another terminal, run `docker inspect tododb | grep IPAddress`. You should see something like
+       ```shell
+       "SecondaryIPAddresses": null,
+       "IPAddress": "172.17.0.2",
+               "IPAddress": "172.17.0.2",
+       ```
+       
+       In this example, the ip address is `172.17.0.2`.
+
+6. Now run the native executable image, **making sure to substitute the ip address in the previous step**
+   ```shell
+   docker run -i --rm -p 8080:8080 -e QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://172.17.0.2:5432/tododb -e QUARKUS_DATASOURCE_USERNAME=todo -e QUARKUS_DATASOURCE_PASSWORD=todo spring-to-quarkus-todo:0.0.1-SNAPSHOT
+   ```
+   > Notice the startup time. It should start up in only a few milliseconds!
+
+7. Return to your browser to http://localhost:8080
+8. Everything should work as before! No hassle native image generation!
+9. Close both the application and the PostgreSQL instances via `CTRL-C` when you're done. 
