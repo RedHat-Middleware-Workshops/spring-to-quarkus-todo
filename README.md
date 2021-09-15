@@ -1,10 +1,17 @@
+This is the solution branch containing the outcome after following the below tutorial.
+
+---
+
 Hands-on tutorial based on a demo application that [builds and runs as either Spring Boot or Quarkus](https://developers.redhat.com/blog/2021/02/09/spring-boot-on-quarkus-magic-or-madness).
 
 This tutorial takes a Spring Boot application using Spring MVC, Spring Data JPA, and a PostgreSQL database and converts it to Quarkus with little-to-no source code changes. It uses the [Red Hat Migration Toolkit for Applications](https://developers.redhat.com/products/mta/overview) to analyze the Spring Boot application and offer suggestions for how to migrate it to Quarkus.
 
+The completed solution to this exercise can be found in this repo's `solution` branch. 
+
 # Local machine requirements
 - A Java 11 runtime
 - A container runtime (i.e. [Docker](https://www.docker.com/) or [Podman](https://podman.io/))
+    - `docker` commands are used throughout this example
 - Access to the internet
 
 # Run the application
@@ -16,7 +23,7 @@ This tutorial takes a Spring Boot application using Spring MVC, Spring Data JPA,
    ```shell
    ./mvnw clean spring-boot:run
    ```
-   
+
    You should see the standard Spring Boot Banner:
    ```shell
      .   ____          _            __ _ _
@@ -29,7 +36,7 @@ This tutorial takes a Spring Boot application using Spring MVC, Spring Data JPA,
    
    INFO 33595 --- [  restartedMain] com.acme.todo.TodoApplication            : Started TodoApplication in 5.073 seconds (JVM running for 5.544)
    ```
-3. Open browser to http://localhost:8080. You should see
+3. Open your browser to http://localhost:8080. You should see
 
    ![Initial Application Screen](images/spring-todo-1.png)
 
@@ -37,14 +44,14 @@ This tutorial takes a Spring Boot application using Spring MVC, Spring Data JPA,
 
    ![Add a new todo](images/spring-todo-2.png)
 
-   1. Click the empty circle next to a todo to complete it, or uncheck it to mark it as incomplete.
-   2. Click the `X` to remove a todo.
-   3. The `OpenAPI` link at the bottom of the page will open the OpenAPI 3.0 specification for the application.
-   4. The `Swagger UI` link opens the embedded [Swagger UI](https://swagger.io/tools/swagger-ui/), which can be used to execute some of the [RESTful endpoints](https://en.wikipedia.org/wiki/Representational_state_transfer) directly.
-   5. The `Prometheus Metrics` link leads to the [Prometheus metrics endpoint](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-export-prometheus), which would be scraped intermittently by [Prometheus](https://prometheus.io/).
-   6. The `Health Check` link opens the [built-in health check](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-health) exposed by Spring Boot.
+    1. Click the empty circle next to a todo to complete it, or uncheck it to mark it as incomplete.
+    2. Click the `X` to remove a todo.
+    3. The `OpenAPI` link at the bottom of the page will open the OpenAPI 3.0 specification for the application.
+    4. The `Swagger UI` link opens the embedded [Swagger UI](https://swagger.io/tools/swagger-ui/), which can be used to execute some of the [RESTful endpoints](https://en.wikipedia.org/wiki/Representational_state_transfer) directly.
+    5. The `Prometheus Metrics` link leads to the [Prometheus metrics endpoint](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-export-prometheus), which would be scraped intermittently by [Prometheus](https://prometheus.io/).
+    6. The `Health Check` link opens the [built-in health check](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-health) exposed by Spring Boot.
 5. Go ahead and play around a bit to see it all in action. Use `CTRL-C` in the terminal to stop the application before proceeding.
-6. Also make sure to stop the docker daemon running the PostgreSQL database from step 1 before proceeding.
+6. **IMPORTANT!** Also make sure to stop the docker daemon running the PostgreSQL database from step 1 before proceeding.
 
 # Examine the internals
 - [Spring MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html) for building the REST layer:
@@ -54,7 +61,7 @@ This tutorial takes a Spring Boot application using Spring MVC, Spring Data JPA,
     - Open [`src/main/java/com/acme/todo/repository/TodoRepository.java`](src/main/java/com/acme/todo/repository/TodoRepository.java) to find the [Spring Data JPA Repository](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories), exposing all of the create, read, update, and delete operations for the `TodoEntity`.
 - [Spring Boot Actuators](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html) for providing operational capabilities, including health checks and metrics gathering.
 - [SpringDoc OpenAPI 3](https://springdoc.org/) for generating and exposing RESTful API information as well as the embedded Swagger UI endpoint.
-   > **NOTE:** Spring Boot on its own does not have a starter providing this capability.
+  > **NOTE:** Spring Boot on its own does not have a starter providing this capability.
 - [Prometheus Micrometer Registry](https://micrometer.io/docs/registry/prometheus) for exposing metrics to Prometheus.
 - Open [`src/main/resources/META-INF/resources`](src/main/resources/META-INF/resources) to find the user interface components used.
 - Open [`src/main/resources/application.properties`](src/main/resources/application.properties) to find the application configuration.
@@ -68,18 +75,23 @@ We are going to use the [Red Hat Migration Toolkit for Applications (MTA)](https
 - A [Maven plugin](https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/5.2/html/maven_plugin_guide/index).
 
 For this exercise we have [pre-built a container image](https://quay.io/repository/edeandrea/mta-cli) that runs the [command line interface](https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/5.2/html/cli_guide/index). This approach was chosen to make it easier to run without having to install anything on a local machine.
-   > **NOTE:** The [`Dockerfile.mta`](Dockerfile.mta) file was used to create the container image being used.
+> **NOTE:** The [`Dockerfile.mta`](Dockerfile.mta) file was used to create the container image being used.
 
 1. On the terminal from the project directory, run the command `docker run -it -v $(pwd):/opt/project quay.io/edeandrea/mta-cli:latest`
-   > **IMPORTANT**: This command works "as-is" on *nix/macos platforms. If you are on Windows command line, you may need to substitute the command with `docker run -it -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest`. If on Windows PowerShell, you may need to substitute the command with `docker run -it -v ${PWD}:/opt/project quay.io/edeandrea/mta-cli:latest`. If none of those options work for you, [see here](https://stackoverflow.com/questions/41485217/mount-current-directory-as-a-volume-in-docker-on-windows-10) for more information on obtaining the current working directory for the `-v` option.
+   > **IMPORTANT**: This command works "as-is" on *nix/macos platforms.
+   > 
+   > If you are on Windows command line, you may need to substitute the command with `docker run -it -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest`.
+   >
+   > If on Windows PowerShell, you may need to substitute the command with `docker run -it -v ${PWD}:/opt/project quay.io/edeandrea/mta-cli:latest`.
+   > 
+   > If none of those options work for you, [see here](https://stackoverflow.com/questions/41485217/mount-current-directory-as-a-volume-in-docker-on-windows-10) for more information on obtaining the current working directory for the `-v` option.
 
-   > **NOTE:** It may take several minutes to run the first time as required dependencies are downloaded.
 2. Once completed you will see something like:
    ```shell
    Report created: /opt/project/mta-report/index.html
               Access it at this URL: file:///opt/project/mta-report/index.html
    ```
-3. In your browser, open up the `mta-report/index.html` page. You should see the **Application List** page:
+3. In your browser, open up the newly-created `mta-report/index.html` page within the project. You should see the **Application List** page:
 
    ![Application List](images/mta-app-list.png)
 
@@ -106,7 +118,7 @@ Each issue is something that needs to be dealt with to convert the application f
 The first issue is replacing the Spring parent POM with the Quarkus BOM.
 
 > Quarkus does not use a parent POM. Instead, [Quarkus imports a BOM](https://quarkus.io/guides/maven-tooling#build-tool-maven) inside the `<dependencyManagement>` section of the pom
-   
+
 While we're in `pom.xml` we may as well fix all the issues related to it.
 
 1. In your editor/IDE, open [`pom.xml`](pom.xml)
@@ -126,7 +138,10 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
      </dependencies>
    </dependencyManagement>
    ```
-5. The next issue is `Replace the Spring Web artifact with Quarkus 'spring-web' extension`. In `pom.xml`, find
+   
+5. The next issue is `Replace the Spring Web artifact with Quarkus 'spring-web' extension`.
+
+   In `pom.xml`, find
    ```xml
    <dependency>
      <groupId>org.springframework.boot</groupId>
@@ -141,14 +156,17 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
      <artifactId>quarkus-spring-web</artifactId>
    </dependency>
    ```
-6. The next issue is `Replace the SpringBoot Data JPA artifact with Quarkus 'spring-data-jpa' extension`. In `pom.xml`, find
+   
+6. The next issue is `Replace the SpringBoot Data JPA artifact with Quarkus 'spring-data-jpa' extension`.
+
+   In `pom.xml`, find
    ```xml
    <dependency>
      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
    </dependency>
    ```
-   
+
    and, according to the [Quarkus JPA Guide](https://quarkus.io/guides/spring-data-jpa), replace it with
    ```xml
    <dependency>
@@ -156,7 +174,10 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
      <artifactId>quarkus-spring-data-jpa</artifactId>
    </dependency>
    ```
-7. The next issue is `Spring component springdoc-openapi-ui requires investigation`. [SpringDoc OpenAPI](https://springdoc.org/) is a 3rd party open source library that isn't part of Spring itself. Luckily, there is the [Quarkus OpenAPI extension](https://quarkus.io/guides/openapi-swaggerui). In `pom.xml`, find
+   
+7. The next issue is `Spring component springdoc-openapi-ui requires investigation`. [SpringDoc OpenAPI](https://springdoc.org/) is a 3rd party open source library that isn't part of Spring itself. Luckily, there is the [Quarkus OpenAPI extension](https://quarkus.io/guides/openapi-swaggerui).
+
+   In `pom.xml`, find
    ```xml
    <dependency>
      <groupId>org.springdoc</groupId>
@@ -164,7 +185,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
      <version>1.5.10</version>
    </dependency>
    ```
-   
+
    and replace it with
    ```xml
    <dependency>
@@ -172,41 +193,51 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
      <artifactId>quarkus-smallrye-openapi</artifactId>
    </dependency>
    ```
-8. The next issue is `Replace the Spring Boot Actuator dependency with Quarkus Smallrye Health extension`. In `pom.xml`, find
-   ```xml
-   <dependency>
-     <groupId>org.springframework.boot</groupId>
-     <artifactId>spring-boot-starter-actuator</artifactId>
-   </dependency>
-   ```
    
-   and, according to the [Quarkus - SmallRye Health Guide](https://quarkus.io/guides/smallrye-health), replace it with
-   ```xml
-   <dependency>
-     <groupId>io.quarkus</groupId>
-     <artifactId>quarkus-smallrye-health</artifactId>
-   </dependency>
-   ```
-9. The next issue is `Spring component spring-boot-starter-test requires investigation`. In `pom.xml`, find
-   ```xml
-   <dependency>
-     <groupId>org.springframework.boot</groupId>
-     <artifactId>spring-boot-starter-test</artifactId>
-     <scope>test</scope>
-   </dependency>
-   ```
+8. The next issue is `Replace the Spring Boot Actuator dependency with Quarkus Smallrye Health extension`.
+ 
+   In `pom.xml`, find
+    ```xml
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    ```
+
+    and, according to the [Quarkus - SmallRye Health Guide](https://quarkus.io/guides/smallrye-health), replace it with
+    ```xml
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-health</artifactId>
+    </dependency>
+    ```
    
-   and, according to the [Quarkus testing guide](https://quarkus.io/guides/getting-started-testing), replace it with
-   ```xml
-   <dependency>
-     <groupId>io.quarkus</groupId>
-     <artifactId>quarkus-junit5</artifactId>
-     <scope>test</scope>
-   </dependency>
-   ```
+9. The next issue is `Spring component spring-boot-starter-test requires investigation`.
+
+   In `pom.xml`, find
+     ```xml
+     <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-test</artifactId>
+       <scope>test</scope>
+     </dependency>
+     ```
+
+     and, according to the [Quarkus testing guide](https://quarkus.io/guides/getting-started-testing), replace it with
+     ```xml
+     <dependency>
+       <groupId>io.quarkus</groupId>
+       <artifactId>quarkus-junit5</artifactId>
+       <scope>test</scope>
+     </dependency>
+     ```
+
+---
 
 Some issues that weren't caught by the tool but also need to be fixed:
-1. The `io.micrometer:micrometer-registry-prometheus` dependency. This needs to be swapped for the [Quarkus Micrometer extension](http://quarkus.io/guides/micrometer). In `pom.xml`, find
+1. The `io.micrometer:micrometer-registry-prometheus` dependency. This needs to be swapped for the [Quarkus Micrometer extension](http://quarkus.io/guides/micrometer).
+
+   In `pom.xml`, find
    ```xml
    <dependency>
      <groupId>io.micrometer</groupId>
@@ -221,7 +252,10 @@ Some issues that weren't caught by the tool but also need to be fixed:
      <artifactId>quarkus-micrometer-registry-prometheus</artifactId>
    </dependency>
    ```
-2. The `org.postgresql:postgresql` dependency needs to be swapped for the [Quarkus PostgreSQL extension](https://quarkus.io/guides/datasource#jdbc-datasource-2). In `pom.xml`, find
+   
+2. The `org.postgresql:postgresql` dependency needs to be swapped for the [Quarkus PostgreSQL extension](https://quarkus.io/guides/datasource#jdbc-datasource-2).
+
+   In `pom.xml`, find
    ```xml
    <dependency>
      <groupId>org.postgresql</groupId>
@@ -237,7 +271,10 @@ Some issues that weren't caught by the tool but also need to be fixed:
      <artifactId>quarkus-jdbc-postgresql</artifactId>
    </dependency>
    ```
-3. The `org.springframework.boot:spring-boot-devtools` isn't needed. The [Spring Boot Developer Tools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) provides features aiming to enhance developer productivity, such as live reload. These features are part of the core of Quarkus. In `pom.xml`, find
+   
+3. The `org.springframework.boot:spring-boot-devtools` isn't needed. The [Spring Boot Developer Tools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) provides features aiming to enhance developer productivity, such as live reload. These features are part of the core of Quarkus.
+
+   In `pom.xml`, find
    ```xml
    <dependency>
      <groupId>org.springframework.boot</groupId>
@@ -245,9 +282,12 @@ Some issues that weren't caught by the tool but also need to be fixed:
      <optional>true</optional>
    </dependency>
    ```
-   
+
    and remove it
-4. The `org.springframework.boot:spring-boot-maven-plugin` needs to be changed so that the application [is built with Quarkus](https://quarkus.io/guides/maven-tooling#build-tool-maven), both for running on the JVM and in native image. In `pom.xml`, find
+
+4. The `org.springframework.boot:spring-boot-maven-plugin` needs to be changed so that the application [is built with Quarkus](https://quarkus.io/guides/maven-tooling#build-tool-maven), both for running on the JVM and in native image.
+
+   In `pom.xml`, find
    ```xml
    <build>
      <plugins>
@@ -337,12 +377,14 @@ Some issues that weren't caught by the tool but also need to be fixed:
 
    > **NOTE:** While this replacement might seem like a lot of XML, it also sets up the application to [build a native image](https://quarkus.io/guides/building-native-image) using the `native` Maven profile.
 
-5. A Spring Boot application also contains a "main" class with the `@SpringBootApplication` annotation. A Quarkus application does not have such a class. There are 2 options that can be taken:
+6. A Spring Boot application also contains a "main" class with the `@SpringBootApplication` annotation. A Quarkus application does not have such a class. There are 2 options that can be taken:
     1. Remove the [`src/main/java/com/acme/todo/TodoApplication.java`](src/main/java/com/acme/todo/TodoApplication.java) class
-   
-    **OR**
 
-    2. Add the `org.springframework.boot:spring-boot-autoconfigure` dependency as an `optional` Maven dependency. An `optional` dependency is available when an application compiles but is not packaged with the application at runtime. Doing this would allow the application to compile without modification, but you would also need to maintain a Spring version along with the Quarkus application. To use this option, add this to the `<dependencies>` section of `pom.xml`:
+   **OR**
+
+    2. Add the `org.springframework.boot:spring-boot-autoconfigure` dependency as an `optional` Maven dependency. An `optional` dependency is available when an application compiles but is not packaged with the application at runtime. Doing this would allow the application to compile without modification, but you would also need to maintain a Spring version along with the Quarkus application.
+   
+       To use this option, add this to the `<dependencies>` section of `pom.xml`:
        ```xml
        <dependency>
          <groupId>org.springframework.boot</groupId>
@@ -351,18 +393,24 @@ Some issues that weren't caught by the tool but also need to be fixed:
          <optional>true</optional>
        </dependency>
        ```
-       
+
        > **NOTE:** This is the option chosen in the `solution` branch of this repository. This option was chosen purely because we did not want to have to change any source code within the project. In a more "real world" scenario, the better option would most likely be option 1.
 
 Now that the changes to `pom.xml` are complete, save and close it.
+
+When completed, your `pom.xml` should look like the [`pom.xml` in the solution branch](https://github.com/edeandrea/spring-to-quarkus-todo/blob/solution/pom.xml).
 
 # Re-analyze application
 Now let's re-analyze the application to see how much of the migration has been completed.
 
 1. On the terminal from the project directory, re-run the command `docker run -it -v $(pwd):/opt/project quay.io/edeandrea/mta-cli:latest`
-> **IMPORTANT**: This command works "as-is" on *nix/macos platforms. If you are on Windows command line, you may need to substitute the command with `docker run -it -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest`. If on Windows PowerShell, you may need to substitute the command with `docker run -it -v ${PWD}:/opt/project quay.io/edeandrea/mta-cli:latest`. If none of those options work for you, [see here](https://stackoverflow.com/questions/41485217/mount-current-directory-as-a-volume-in-docker-on-windows-10) for more information on obtaining the current working directory for the `-v` option.
-
-> **NOTE:** It may take several minutes to run the first time as required dependencies are downloaded.
+   > **IMPORTANT**: This command works "as-is" on *nix/macos platforms.
+   >
+   > If you are on Windows command line, you may need to substitute the command with `docker run -it -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest`.
+   >
+   > If on Windows PowerShell, you may need to substitute the command with `docker run -it -v ${PWD}:/opt/project quay.io/edeandrea/mta-cli:latest`.
+   >
+   > If none of those options work for you, [see here](https://stackoverflow.com/questions/41485217/mount-current-directory-as-a-volume-in-docker-on-windows-10) for more information on obtaining the current working directory for the `-v` option.
 
 2. Once completed you will see something like:
    ```shell
@@ -373,8 +421,9 @@ Now let's re-analyze the application to see how much of the migration has been c
 3. Clicking back to the **Issues** tab should only show a single category of issues: `Replace Spring datasource property key/value pairs with Quarkus properties`.
    ![Issues after pom.xml fixes](images/mta-issues-after-pom-fixes.png)
 
-4. Before proceeding, let's start the newly-converted Quarkus application in [Quarkus's Dev Mode](https://quarkus.io/guides/maven-tooling#dev-mode). In the terminal, run `./mvnw clean quarkus:dev`.
-5. The Quarkus application should start up, and you should see the Quarkus banner:
+4. Before proceeding, let's start the newly-converted Quarkus application in [Quarkus's Dev Mode](https://quarkus.io/guides/maven-tooling#dev-mode).
+5. In the terminal, run `./mvnw clean quarkus:dev`.
+6. The Quarkus application should start up, and you should see the Quarkus banner:
    ```shell
    INFO  [io.qua.dev.pos.dep.PostgresqlDevServicesProcessor] (build-49) Dev Services for PostgreSQL started.
    __  ____  __  _____   ___  __ ____  ______ 
@@ -385,10 +434,11 @@ Now let's re-analyze the application to see how much of the migration has been c
    INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
    INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, jdbc-postgresql, micrometer, narayana-jta, resteasy, resteasy-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui]
    ```
-   
+
    > Notice the line `Dev Services for PostgreSQL started`. [Quarkus Dev Services](https://quarkus.io/guides/dev-services) noticed the PostgreSQL extension on the classpath and started a PostgreSQL container image automatically, while also automatically setting all the configuration properties for the application to communicate with it!
-6. Re-open your browser to http://localhost:8080.
-7. You'll notice a bunch of exceptions in the console log. This is because we haven't finished converting the application. We still need to migrate some Spring datasource configuration.
+
+7. Re-open your browser to http://localhost:8080.
+8. You'll notice a bunch of exceptions in the console log. This is because we haven't finished converting the application. We still need to migrate some Spring datasource configuration.
 
 # Migrate Data source properties
 The other issues relate to properties within `src/main/resources/application.properties`.
@@ -398,10 +448,12 @@ The other issues relate to properties within `src/main/resources/application.pro
 
 2. In your editor/IDE, open [`src/main/resources/application.properties`](src/main/resources/application.properties)
 3. The Spring-specific properties in this file need to be changed to their Quarkus equivalents
-   1. Find `spring.datasource.url=jdbc:postgresql://localhost:5432/tododb` and remove it completely
-      > As you saw, [Quarkus Dev Services](https://quarkus.io/guides/dev-services) will automatically create the database for us and bind it to our application. 
-   
-   2. Similarly, find and remove `spring.datasource.username=todo` and `spring.datasource.password=todo` as well
+    1. Find `spring.datasource.url=jdbc:postgresql://localhost:5432/tododb` and remove it completely
+       > As you saw, [Quarkus Dev Services](https://quarkus.io/guides/dev-services) will automatically create the database for us and bind it to our application.
+
+    2. Similarly, find and remove `spring.datasource.username=todo` and `spring.datasource.password=todo` as well
+
+---
 
 There are a couple of other properties that the analysis didn't find.
 1. Find `spring.jpa.hibernate.ddl-auto=create-drop` and replace with `quarkus.hibernate-orm.database.generation=drop-and-create` according to the [Quarkus Hibernate ORM and JPA Guide](https://quarkus.io/guides/hibernate-orm). This will allow Quarkus (& Hibernate under the covers) to automatically create the database schema upon startup.
