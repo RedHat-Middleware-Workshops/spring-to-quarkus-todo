@@ -400,9 +400,13 @@ When completed, your `pom.xml` should look like the [`pom.xml` in the solution b
 Now let's re-analyze the application to see how much of the migration has been completed.
 
 1. On the terminal from the project directory, re-run the command `docker run -it -v $(pwd):/opt/project quay.io/edeandrea/mta-cli:latest`
-> **IMPORTANT**: This command works "as-is" on *nix/macos platforms. If you are on Windows command line, you may need to substitute the command with `docker run -it -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest`. If on Windows PowerShell, you may need to substitute the command with `docker run -it -v ${PWD}:/opt/project quay.io/edeandrea/mta-cli:latest`. If none of those options work for you, [see here](https://stackoverflow.com/questions/41485217/mount-current-directory-as-a-volume-in-docker-on-windows-10) for more information on obtaining the current working directory for the `-v` option.
-
-> **NOTE:** It may take several minutes to run the first time as required dependencies are downloaded.
+   > **IMPORTANT**: This command works "as-is" on *nix/macos platforms.
+   >
+   > If you are on Windows command line, you may need to substitute the command with `docker run -it -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest`.
+   >
+   > If on Windows PowerShell, you may need to substitute the command with `docker run -it -v ${PWD}:/opt/project quay.io/edeandrea/mta-cli:latest`.
+   >
+   > If none of those options work for you, [see here](https://stackoverflow.com/questions/41485217/mount-current-directory-as-a-volume-in-docker-on-windows-10) for more information on obtaining the current working directory for the `-v` option.
 
 2. Once completed you will see something like:
    ```shell
@@ -427,6 +431,7 @@ Now let's re-analyze the application to see how much of the migration has been c
    ```
 
    > Notice the line `Dev Services for PostgreSQL started`. [Quarkus Dev Services](https://quarkus.io/guides/dev-services) noticed the PostgreSQL extension on the classpath and started a PostgreSQL container image automatically, while also automatically setting all the configuration properties for the application to communicate with it!
+
 6. Re-open your browser to http://localhost:8080.
 7. You'll notice a bunch of exceptions in the console log. This is because we haven't finished converting the application. We still need to migrate some Spring datasource configuration.
 
