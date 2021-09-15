@@ -364,6 +364,8 @@ Some issues that weren't caught by the tool but also need to be fixed:
 
 Now that the changes to `pom.xml` are complete, save and close it.
 
+When completed, your `pom.xml` should look like the [`pom.xml` in the solution branch](https://github.com/edeandrea/spring-to-quarkus-todo/blob/solution/pom.xml).
+
 # Re-analyze application
 Now let's re-analyze the application to see how much of the migration has been completed.
 
