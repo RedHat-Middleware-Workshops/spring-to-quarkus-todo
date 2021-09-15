@@ -134,7 +134,10 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
      </dependencies>
    </dependencyManagement>
    ```
-5. The next issue is `Replace the Spring Web artifact with Quarkus 'spring-web' extension`. In `pom.xml`, find
+   
+5. The next issue is `Replace the Spring Web artifact with Quarkus 'spring-web' extension`.
+
+   In `pom.xml`, find
    ```xml
    <dependency>
      <groupId>org.springframework.boot</groupId>
@@ -149,7 +152,10 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
      <artifactId>quarkus-spring-web</artifactId>
    </dependency>
    ```
-6. The next issue is `Replace the SpringBoot Data JPA artifact with Quarkus 'spring-data-jpa' extension`. In `pom.xml`, find
+   
+6. The next issue is `Replace the SpringBoot Data JPA artifact with Quarkus 'spring-data-jpa' extension`.
+
+   In `pom.xml`, find
    ```xml
    <dependency>
      <groupId>org.springframework.boot</groupId>
@@ -164,7 +170,10 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
      <artifactId>quarkus-spring-data-jpa</artifactId>
    </dependency>
    ```
-7. The next issue is `Spring component springdoc-openapi-ui requires investigation`. [SpringDoc OpenAPI](https://springdoc.org/) is a 3rd party open source library that isn't part of Spring itself. Luckily, there is the [Quarkus OpenAPI extension](https://quarkus.io/guides/openapi-swaggerui). In `pom.xml`, find
+   
+7. The next issue is `Spring component springdoc-openapi-ui requires investigation`. [SpringDoc OpenAPI](https://springdoc.org/) is a 3rd party open source library that isn't part of Spring itself. Luckily, there is the [Quarkus OpenAPI extension](https://quarkus.io/guides/openapi-swaggerui).
+
+   In `pom.xml`, find
    ```xml
    <dependency>
      <groupId>org.springdoc</groupId>
@@ -180,43 +189,51 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
      <artifactId>quarkus-smallrye-openapi</artifactId>
    </dependency>
    ```
-8. The next issue is `Replace the Spring Boot Actuator dependency with Quarkus Smallrye Health extension`. In `pom.xml`, find
-   ```xml
-   <dependency>
-     <groupId>org.springframework.boot</groupId>
-     <artifactId>spring-boot-starter-actuator</artifactId>
-   </dependency>
-   ```
+   
+8. The next issue is `Replace the Spring Boot Actuator dependency with Quarkus Smallrye Health extension`.
+ 
+   In `pom.xml`, find
+    ```xml
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    ```
 
-   and, according to the [Quarkus - SmallRye Health Guide](https://quarkus.io/guides/smallrye-health), replace it with
-   ```xml
-   <dependency>
-     <groupId>io.quarkus</groupId>
-     <artifactId>quarkus-smallrye-health</artifactId>
-   </dependency>
-   ```
-9. The next issue is `Spring component spring-boot-starter-test requires investigation`. In `pom.xml`, find
-   ```xml
-   <dependency>
-     <groupId>org.springframework.boot</groupId>
-     <artifactId>spring-boot-starter-test</artifactId>
-     <scope>test</scope>
-   </dependency>
-   ```
+    and, according to the [Quarkus - SmallRye Health Guide](https://quarkus.io/guides/smallrye-health), replace it with
+    ```xml
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-health</artifactId>
+    </dependency>
+    ```
+   
+9. The next issue is `Spring component spring-boot-starter-test requires investigation`.
 
-   and, according to the [Quarkus testing guide](https://quarkus.io/guides/getting-started-testing), replace it with
-   ```xml
-   <dependency>
-     <groupId>io.quarkus</groupId>
-     <artifactId>quarkus-junit5</artifactId>
-     <scope>test</scope>
-   </dependency>
-   ```
+   In `pom.xml`, find
+     ```xml
+     <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-test</artifactId>
+       <scope>test</scope>
+     </dependency>
+     ```
+
+     and, according to the [Quarkus testing guide](https://quarkus.io/guides/getting-started-testing), replace it with
+     ```xml
+     <dependency>
+       <groupId>io.quarkus</groupId>
+       <artifactId>quarkus-junit5</artifactId>
+       <scope>test</scope>
+     </dependency>
+     ```
 
 ---
 
 Some issues that weren't caught by the tool but also need to be fixed:
-1. The `io.micrometer:micrometer-registry-prometheus` dependency. This needs to be swapped for the [Quarkus Micrometer extension](http://quarkus.io/guides/micrometer). In `pom.xml`, find
+1. The `io.micrometer:micrometer-registry-prometheus` dependency. This needs to be swapped for the [Quarkus Micrometer extension](http://quarkus.io/guides/micrometer).
+
+   In `pom.xml`, find
    ```xml
    <dependency>
      <groupId>io.micrometer</groupId>
@@ -231,7 +248,10 @@ Some issues that weren't caught by the tool but also need to be fixed:
      <artifactId>quarkus-micrometer-registry-prometheus</artifactId>
    </dependency>
    ```
-2. The `org.postgresql:postgresql` dependency needs to be swapped for the [Quarkus PostgreSQL extension](https://quarkus.io/guides/datasource#jdbc-datasource-2). In `pom.xml`, find
+   
+2. The `org.postgresql:postgresql` dependency needs to be swapped for the [Quarkus PostgreSQL extension](https://quarkus.io/guides/datasource#jdbc-datasource-2).
+
+   In `pom.xml`, find
    ```xml
    <dependency>
      <groupId>org.postgresql</groupId>
@@ -247,7 +267,10 @@ Some issues that weren't caught by the tool but also need to be fixed:
      <artifactId>quarkus-jdbc-postgresql</artifactId>
    </dependency>
    ```
-3. The `org.springframework.boot:spring-boot-devtools` isn't needed. The [Spring Boot Developer Tools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) provides features aiming to enhance developer productivity, such as live reload. These features are part of the core of Quarkus. In `pom.xml`, find
+   
+3. The `org.springframework.boot:spring-boot-devtools` isn't needed. The [Spring Boot Developer Tools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) provides features aiming to enhance developer productivity, such as live reload. These features are part of the core of Quarkus.
+
+   In `pom.xml`, find
    ```xml
    <dependency>
      <groupId>org.springframework.boot</groupId>
@@ -257,7 +280,10 @@ Some issues that weren't caught by the tool but also need to be fixed:
    ```
 
    and remove it
-4. The `org.springframework.boot:spring-boot-maven-plugin` needs to be changed so that the application [is built with Quarkus](https://quarkus.io/guides/maven-tooling#build-tool-maven), both for running on the JVM and in native image. In `pom.xml`, find
+
+4. The `org.springframework.boot:spring-boot-maven-plugin` needs to be changed so that the application [is built with Quarkus](https://quarkus.io/guides/maven-tooling#build-tool-maven), both for running on the JVM and in native image.
+
+   In `pom.xml`, find
    ```xml
    <build>
      <plugins>
@@ -347,12 +373,14 @@ Some issues that weren't caught by the tool but also need to be fixed:
 
    > **NOTE:** While this replacement might seem like a lot of XML, it also sets up the application to [build a native image](https://quarkus.io/guides/building-native-image) using the `native` Maven profile.
 
-5. A Spring Boot application also contains a "main" class with the `@SpringBootApplication` annotation. A Quarkus application does not have such a class. There are 2 options that can be taken:
+6. A Spring Boot application also contains a "main" class with the `@SpringBootApplication` annotation. A Quarkus application does not have such a class. There are 2 options that can be taken:
     1. Remove the [`src/main/java/com/acme/todo/TodoApplication.java`](src/main/java/com/acme/todo/TodoApplication.java) class
 
    **OR**
 
-    2. Add the `org.springframework.boot:spring-boot-autoconfigure` dependency as an `optional` Maven dependency. An `optional` dependency is available when an application compiles but is not packaged with the application at runtime. Doing this would allow the application to compile without modification, but you would also need to maintain a Spring version along with the Quarkus application. To use this option, add this to the `<dependencies>` section of `pom.xml`:
+    2. Add the `org.springframework.boot:spring-boot-autoconfigure` dependency as an `optional` Maven dependency. An `optional` dependency is available when an application compiles but is not packaged with the application at runtime. Doing this would allow the application to compile without modification, but you would also need to maintain a Spring version along with the Quarkus application.
+   
+      To use this option, add this to the `<dependencies>` section of `pom.xml`:
        ```xml
        <dependency>
          <groupId>org.springframework.boot</groupId>
