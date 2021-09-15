@@ -8,6 +8,14 @@ This tutorial takes a Spring Boot application using Spring MVC, Spring Data JPA,
 
 The completed solution to this exercise can be found in this repo's `solution` branch. 
 
+# Additional Resources
+- [Quarkus for Spring Developers eBook](https://red.ht/quarkus-spring-devs)
+- [Quarkus Insights: Quarkus for Spring Developers](https://youtu.be/RvO8MUfc0kA)
+- [Why should I choose Quarkus over Spring for my microservices?](https://developers.redhat.com/articles/2021/08/31/why-should-i-choose-quarkus-over-spring-my-microservices)
+- [Spring Boot on Quarkus - Magic or Madness?](https://developers.redhat.com/blog/2021/02/09/spring-boot-on-quarkus-magic-or-madness)
+- [Evolution of the Quarkus Developer Experience](https://dzone.com/articles/evolution-of-the-quarkus-developer-experience)
+- [Red Hat Migration Toolkit for Applications](https://developers.redhat.com/products/mta/overview)
+
 # Local machine requirements
 - A Java 11 runtime
 - A container runtime (i.e. [Docker](https://www.docker.com/) or [Podman](https://podman.io/))
