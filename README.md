@@ -87,7 +87,7 @@ For this exercise we have [pre-built a container image](https://quay.io/reposito
    Report created: /opt/project/mta-report/index.html
               Access it at this URL: file:///opt/project/mta-report/index.html
    ```
-3. In your browser, open up the `mta-report/index.html` page. You should see the **Application List** page:
+3. In your browser, open up the newly-created `mta-report/index.html` page within the project. You should see the **Application List** page:
 
    ![Application List](images/mta-app-list.png)
 
