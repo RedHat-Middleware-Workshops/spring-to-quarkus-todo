@@ -1,3 +1,16 @@
+# Table of Contents
+- [Background](#background)
+- [Additional Resources](#additional-resources)
+- [Prerequisites](#prerequisites)
+- [Run the application](#run-the-application)
+- [Examine the internals](#examine-the-internals)
+- [Analyze the application for migration](#analyze-the-application-for-migration)
+- [Correct Issues](#correct-issues)
+- [Re-analyze the application](#re-analyze-the-application)
+- [Migrate Data source properties](#migrate-data-source-properties)
+- [Bonus: No hassle native image](
+
+# Background
 Hands-on tutorial based on a demo application that [builds and runs as either Spring Boot or Quarkus](https://developers.redhat.com/blog/2021/02/09/spring-boot-on-quarkus-magic-or-madness).
 
 This tutorial takes a Spring Boot application using Spring MVC, Spring Data JPA, and a PostgreSQL database and converts it to Quarkus with little-to-no source code changes. It uses the [Red Hat Migration Toolkit for Applications](https://developers.redhat.com/products/mta/overview) to analyze the Spring Boot application and offer suggestions for how to migrate it to Quarkus.
@@ -12,7 +25,7 @@ The completed solution to this exercise can be found in this repo's `solution` b
 - [Evolution of the Quarkus Developer Experience](https://dzone.com/articles/evolution-of-the-quarkus-developer-experience)
 - [Red Hat Migration Toolkit for Applications](https://developers.redhat.com/products/mta/overview)
 
-# Local machine requirements
+# Prerequisites
 - A Java 11 runtime
 - A container runtime (i.e. [Docker](https://www.docker.com/) or [Podman](https://podman.io/))
     - `docker` commands are used throughout this example
@@ -404,7 +417,7 @@ Now that the changes to `pom.xml` are complete, save and close it.
 
 When completed, your `pom.xml` should look like the [`pom.xml` in the solution branch](https://github.com/RedHat-Middleware-Workshops/spring-to-quarkus-todo/blob/solution/pom.xml).
 
-# Re-analyze application
+# Re-analyze the application
 Now let's re-analyze the application to see how much of the migration has been completed.
 
 1. On the terminal from the project directory, re-run the command `docker run -it -v $(pwd):/opt/project quay.io/edeandrea/mta-cli:latest`
@@ -478,7 +491,7 @@ There are a couple of other properties that the analysis didn't find.
 
 11. Hit `CTRL-C` in your terminal once done.
 
-# Bonus
+# Bonus: No hassle native image
 As a bonus exercise, let's create and run a Quarkus native image. The easiest way to create a container image containing a native executable is to leverage one of the [Quarkus container-image extensions](https://quarkus.io/guides/building-native-image#using-the-container-image-extensions). If one of those extensions is present, then creating a container image for the native executable is essentially a matter of executing a single command. These extensions also allow us to build a native executable without the need to [install and configure GraalVM](https://quarkus.io/guides/building-native-image#graalvm) on our local machine.
 
    > **NOTE:** Native image creation is a CPU and memory-intensive operation. It may or may not work depending on your hardware specs. You may need at lease 6 GB of RAM allocated to your Docker daemon.
