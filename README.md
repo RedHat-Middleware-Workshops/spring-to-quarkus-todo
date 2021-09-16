@@ -8,7 +8,7 @@
 - [Correct Issues](#correct-issues)
 - [Re-analyze the application](#re-analyze-the-application)
 - [Migrate Data source properties](#migrate-data-source-properties)
-- [Bonus: No hassle native image](
+- [Bonus: No hassle native image](#bonus-no-hassle-native-image)
 
 # Background
 Hands-on tutorial based on a demo application that [builds and runs as either Spring Boot or Quarkus](https://developers.redhat.com/blog/2021/02/09/spring-boot-on-quarkus-magic-or-madness).
