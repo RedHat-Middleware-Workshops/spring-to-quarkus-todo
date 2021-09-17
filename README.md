@@ -506,14 +506,25 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
     2. Inside `src/main/docker`, create the file `Dockerfile.native`
     3. Paste in the following into `Dockerfile.native`:
        ```dockerfile
-       FROM quay.io/quarkus/quarkus-distroless-image:1.0
-       COPY target/*-runner /application
+       FROM registry.access.redhat.com/ubi8/ubi-minimal:8.4
+       WORKDIR /work/
+       RUN chown 1001 /work \
+           && chmod "g+rwX" /work \
+           && chown 1001:root /work
+       COPY --chown=1001:root target/*-runner /work/application
 
        EXPOSE 8080
-       USER nonroot
+       USER 1001
 
        CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
        ```
+      
+      > This `Dockerfile` uses UBI (Universal Base Image) as parent image. This base image has been tailored to work perfectly in containers. The `Dockerfile` uses the [minimal](https://access.redhat.com/containers/#/registry.access.redhat.com/ubi8/ubi-minimal) version of the base image to reduce the size of the produced image.
+      > 
+      > You can read more about UBI on:
+      > - [The UBI image page](https://access.redhat.com/containers/?tab=overview#/registry.access.redhat.com/ubi8/ubi)
+      > - [The _UBI-minimal_ image page](https://access.redhat.com/containers/#/registry.access.redhat.com/ubi8/ubi-minimal)
+      > - [The list of _UBI-minimal_ tags](https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/ubi8/ubi-minimal)
       
     4. Save and close `src/main/docker/Dockerfile.native`
    
