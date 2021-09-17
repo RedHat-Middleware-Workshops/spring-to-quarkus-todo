@@ -537,7 +537,9 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
 3. Building a native image can be accomplished by running `./mvnw package -Pnative -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Dquarkus.container-image.group=` in the terminal. Building a native image may take several minutes to complete depending on the specs of your machine and how much CPU/RAM is available.
    > There are many [container image options](https://quarkus.io/guides/container-image#container-image-options) available. The `quarkus.container-image.group=` option removes the `${user.name}` from the final image name. If we did not include this option, the final image would be created as `${user.name}/${quarkus.application.name}:${quarkus.application.version}`. This simply makes it easier to write this tutorial without having to worry about people's usernames!
  
-   > **NOTE:** If the native image build fails due to an out of memory error, you may need to increase the memory size of your docker daemon to a minimum of 6GB. 
+   > **NOTE:** If the native image build fails due to an out of memory error, you may need to increase the memory size of your docker daemon to a minimum of 6GB.
+   > 
+   > You could also try adding the parameter `-Dquarkus.native.additional-build-args=-J-XX:TieredStopAtLevel=1` to the `./mvnw package` command you ran.
 
 4. Once the native image build is complete, start the PostgreSQL database container needed by the application:
    ```shell
