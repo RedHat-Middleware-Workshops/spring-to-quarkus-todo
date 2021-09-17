@@ -496,7 +496,9 @@ There are a couple of other properties that the analysis didn't find.
 11. Hit `CTRL-C` in your terminal once done.
 
 # Bonus: No hassle native image
-As a bonus exercise, let's create and run a Quarkus native image. The easiest way to create a container image containing a native executable is to leverage one of the [Quarkus container-image extensions](https://quarkus.io/guides/building-native-image#using-the-container-image-extensions). If one of those extensions is present, then creating a container image for the native executable is essentially a matter of executing a single command. These extensions also allow us to build a native executable without the need to [install and configure GraalVM](https://quarkus.io/guides/building-native-image#graalvm) on our local machine.
+As a bonus exercise, let's create and run a Quarkus native image. Writing this exercise we don't know what host OS each individual is using, so we will use container images to facilitate building the native executable as a Linux executable, and then create a coontainer image from it. This will also alleviate the need to [install GraalVM on our local machines](https://quarkus.io/guides/building-native-image#graalvm).
+
+The easiest way to create a container image containing a native executable is to leverage one of the [Quarkus container-image extensions](https://quarkus.io/guides/building-native-image#using-the-container-image-extensions). If one of those extensions is present, then creating a container image for the native executable is essentially a matter of executing a single command.
 
    > **NOTE:** Native image creation is a CPU and memory-intensive operation. It may or may not work depending on your hardware specs. You may need at lease 6 GB of RAM allocated to your Docker daemon.
 
