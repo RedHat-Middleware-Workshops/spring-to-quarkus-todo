@@ -27,18 +27,11 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v2
       - name: Install docker # Taken from https://github.com/actions/virtual-environments/issues/1143#issuecomment-652264388
-        run: |
-          mkdir -p ~/.docker/machine/cache
-          curl -Lo ~/.docker/machine/cache/boot2docker.iso https://github.com/boot2docker/boot2docker/releases/download/v19.03.12/boot2docker.iso
-          brew update
-          brew reinstall --cask virtualbox
-          brew install docker docker-machine
-          docker-machine create --driver virtualbox default
-          docker-machine env default
+        run: .github/workflows/scripts/install-docker-macos.sh
       - name: Run MTA
         run: |
           eval $(docker-machine env default)
-          docker run -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
+          docker run -v $(pwd):/opt/project -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
       - name: Assert MTA output
         run: .github/workflows/scripts/assertMta.sh
 
@@ -48,18 +41,11 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v2
       - name: Install docker # Taken from https://github.com/actions/virtual-environments/issues/1143#issuecomment-652264388
-        run: |
-          mkdir -p ~/.docker/machine/cache
-          curl -Lo ~/.docker/machine/cache/boot2docker.iso https://github.com/boot2docker/boot2docker/releases/download/v19.03.12/boot2docker.iso
-          brew update
-          brew reinstall --cask virtualbox
-          brew install docker docker-machine
-          docker-machine create --driver virtualbox default
-          docker-machine env default
+        run: .github/workflows/scripts/install-docker-macos.sh
       - name: Run MTA
         run: |
           eval $(docker-machine env default)
-          docker run -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
+          docker run -v $(pwd):/opt/project -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
       - name: Assert MTA output
         run: .github/workflows/scripts/assertMta.sh
 
