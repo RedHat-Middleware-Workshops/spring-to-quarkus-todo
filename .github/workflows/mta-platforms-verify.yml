@@ -33,9 +33,11 @@ jobs:
           brew install --cask virtualbox
           brew install docker docker-machine
           docker-machine create --driver virtualbox default
-          docker-machine env default
+          docker-machine start default
       - name: Run MTA
-        run: docker run -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
+        run: |
+          eval $(docker-machine env default)
+          docker run -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
       - name: Assert MTA output
         run: .github/workflows/scripts/assertMta.sh
 
@@ -51,23 +53,25 @@ jobs:
           brew install --cask virtualbox
           brew install docker docker-machine
           docker-machine create --driver virtualbox default
-          docker-machine env default
+          docker-machine start default
       - name: Run MTA
-        run: docker run -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
+        run: |
+          eval $(docker-machine env default)
+          docker run -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
       - name: Assert MTA output
         run: .github/workflows/scripts/assertMta.sh
 
-  verify-mta-windows:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v2
-      - name: Switch to linux container
-        run: "& $Env:ProgramFiles\\Docker\\Docker\\DockerCli.exe -SwitchDaemon"
-      - name: Run MTA
-        run: docker run -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest
-      - name: Assert MTA output
-        run: .github/workflows/scripts/assertMta.bat
+  # verify-mta-windows:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - name: Checkout project
+  #       uses: actions/checkout@v2
+  #     - name: Switch to linux container
+  #       run: "& $Env:ProgramFiles\\Docker\\Docker\\DockerCli.exe -SwitchDaemon"
+  #     - name: Run MTA
+  #       run: docker run -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest
+  #     - name: Assert MTA output
+  #       run: .github/workflows/scripts/assertMta.bat
 
   # verify-mta-macos-10:
   #   runs-on: macos-latest
