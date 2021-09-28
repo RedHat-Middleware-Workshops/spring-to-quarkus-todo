@@ -30,7 +30,7 @@ jobs:
         run: .github/workflows/scripts/install-docker-macos.sh
       - name: Run MTA
         run: |
-          eval $(docker-machine env default)
+          eval $(docker-machine env mta)
           docker run -v $(pwd):/opt/project -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
       - name: Assert MTA output
         run: .github/workflows/scripts/assertMta.sh
@@ -44,7 +44,7 @@ jobs:
         run: .github/workflows/scripts/install-docker-macos.sh
       - name: Run MTA
         run: |
-          eval $(docker-machine env default)
+          eval $(docker-machine env mta)
           docker run -v $(pwd):/opt/project -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
       - name: Assert MTA output
         run: .github/workflows/scripts/assertMta.sh

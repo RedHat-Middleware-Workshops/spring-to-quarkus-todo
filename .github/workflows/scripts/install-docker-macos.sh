@@ -35,9 +35,10 @@
 
 brew update
 brew cleanup
-brew install docker docker-machine docker-machine-driver-xhyve
+brew install docker-machine-driver-xhyve
 sudo chown root:wheel $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
 sudo chmod u+s $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
+brew install docker docker-machine 
 # brew install --cask virtualbox
-docker-machine create --driver xhyve default
-docker-machine env default
+docker-machine create --driver xhyve mta
+docker-machine env mta
