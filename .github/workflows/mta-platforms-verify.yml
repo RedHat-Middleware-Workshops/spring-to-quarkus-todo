@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-      - solution
   pull_request:
     branches:
       - main
-      - solution
 
 jobs:
   verify-mta-linux:
@@ -21,29 +19,29 @@ jobs:
       - name: Assert MTA output
         run: .github/workflows/scripts/assertMta.sh
 
-  verify-mta-macos-10-podman:
-    runs-on: macos-10.15
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v2
-      - name: Install podman
-        run: .github/workflows/scripts/install-podman-macos.sh
-      - name: Run MTA
-        run: podman run -v $GITHUB_WORKSPACE:/opt/project:z,U quay.io/edeandrea/mta-cli:latest
-      - name: Assert MTA output
-        run: .github/workflows/scripts/assertMta.sh
+  # verify-mta-macos-10-podman:
+  #   runs-on: macos-10.15
+  #   steps:
+  #     - name: Checkout project
+  #       uses: actions/checkout@v2
+  #     - name: Install podman
+  #       run: .github/workflows/scripts/install-podman-macos.sh
+  #     - name: Run MTA
+  #       run: podman run -v $GITHUB_WORKSPACE:/opt/project:z,U quay.io/edeandrea/mta-cli:latest
+  #     - name: Assert MTA output
+  #       run: .github/workflows/scripts/assertMta.sh
 
-  verify-mta-macos-11-podman:
-    runs-on: macos-11
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v2
-      - name: Install podman
-        run: .github/workflows/scripts/install-podman-macos.sh
-      - name: Run MTA
-        run: podman run -v $GITHUB_WORKSPACE:/opt/project:z,U quay.io/edeandrea/mta-cli:latest
-      - name: Assert MTA output
-        run: .github/workflows/scripts/assertMta.sh
+  # verify-mta-macos-11-podman:
+  #   runs-on: macos-11
+  #   steps:
+  #     - name: Checkout project
+  #       uses: actions/checkout@v2
+  #     - name: Install podman
+  #       run: .github/workflows/scripts/install-podman-macos.sh
+  #     - name: Run MTA
+  #       run: podman run -v $GITHUB_WORKSPACE:/opt/project:z,U quay.io/edeandrea/mta-cli:latest
+  #     - name: Assert MTA output
+  #       run: .github/workflows/scripts/assertMta.sh
 
   # verify-mta-macos-10:
   #   runs-on: macos-10.15
