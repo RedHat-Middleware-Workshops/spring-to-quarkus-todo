@@ -10,17 +10,17 @@ ENV OUTPUT_DIR="mta-report"
 ENV MTA_HOME="${MTA_BASE_DIR}/${MTA_NAME}"
 ENV PACKAGE_NAME="com.acme"
 
+VOLUME [${PROJECT_DIR}]
+
+USER root
+
 RUN mkdir -p ${MTA_BASE_DIR} && \
     cd ${MTA_BASE_DIR} && \
     curl -L -O https://repo1.maven.org/maven2/org/jboss/windup/mta-cli/${MTA_VERSION}/${MTA_NAME}-offline.zip && \
     unzip ${MTA_NAME}-offline.zip && \
     rm ${MTA_NAME}-offline.zip && \
-    chown -R jboss:0 ${MTA_HOME} && \
-    chmod -R g+rw ${MTA_HOME} && \
-    mkdir -p ${PROJECT_DIR} && \
-    chown jboss ${PROJECT_DIR}
-
-VOLUME [${PROJECT_DIR}]
+    chown -R jboss:0 /opt && \
+    chmod -R a+rwx /opt
 
 USER jboss
 
