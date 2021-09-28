@@ -1,0 +1,24 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Test MTA works on various platforms
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches:
+      - main
+      - solution
+  pull_request:
+    branches:
+      - main
+      - solution
+
+jobs:
+  run-mta-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v2
+      - name: Run MTA
+        run: docker run -it -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
