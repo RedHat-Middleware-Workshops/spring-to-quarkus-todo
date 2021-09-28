@@ -26,7 +26,7 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
-      - name: Install docker # Taken from https://github.com/actions/virtual-environments/issues/1143#issuecomment-652264388
+      - name: Install docker
         run: .github/workflows/scripts/install-docker-macos.sh
       - name: Run MTA
         run: |
@@ -40,7 +40,7 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
-      - name: Install docker # Taken from https://github.com/actions/virtual-environments/issues/1143#issuecomment-652264388
+      - name: Install docker
         run: .github/workflows/scripts/install-docker-macos.sh
       - name: Run MTA
         run: |
