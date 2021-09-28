@@ -21,33 +21,33 @@ jobs:
       - name: Assert MTA output
         run: .github/workflows/scripts/assertMta.sh
 
-  verify-mta-macos-10:
-    runs-on: macos-10.15
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v2
-      - name: Install docker
-        run: .github/workflows/scripts/install-docker-macos.sh
-      - name: Run MTA
-        run: |
-          eval $(docker-machine env mta)
-          docker run -v $(pwd):/opt/project -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
-      - name: Assert MTA output
-        run: .github/workflows/scripts/assertMta.sh
+  # verify-mta-macos-10:
+  #   runs-on: macos-10.15
+  #   steps:
+  #     - name: Checkout project
+  #       uses: actions/checkout@v2
+  #     - name: Install docker
+  #       run: .github/workflows/scripts/install-docker-macos.sh
+  #     - name: Run MTA
+  #       run: |
+  #         eval $(docker-machine env mta)
+  #         docker run -v $(pwd):/opt/project -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
+  #     - name: Assert MTA output
+  #       run: .github/workflows/scripts/assertMta.sh
 
-  verify-mta-macos-11:
-    runs-on: macos-11
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v2
-      - name: Install docker
-        run: .github/workflows/scripts/install-docker-macos.sh
-      - name: Run MTA
-        run: |
-          eval $(docker-machine env mta)
-          docker run -v $(pwd):/opt/project -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
-      - name: Assert MTA output
-        run: .github/workflows/scripts/assertMta.sh
+  # verify-mta-macos-11:
+  #   runs-on: macos-11
+  #   steps:
+  #     - name: Checkout project
+  #       uses: actions/checkout@v2
+  #     - name: Install docker
+  #       run: .github/workflows/scripts/install-docker-macos.sh
+  #     - name: Run MTA
+  #       run: |
+  #         eval $(docker-machine env mta)
+  #         docker run -v $(pwd):/opt/project -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
+  #     - name: Assert MTA output
+  #       run: .github/workflows/scripts/assertMta.sh
 
   # verify-mta-windows:
   #   runs-on: windows-latest
