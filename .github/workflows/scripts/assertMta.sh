@@ -9,6 +9,4 @@ echo "Checking whether $MTA_REPORT_DIR exists"
 echo "Checking whether $MTA_REPORT_FILE exists"
 [ ! -s $MTA_REPORT_FILE ] && echo "File $MTA_REPORT_FILE DOES NOT exist" && exit -1
 
-cat $MTA_REPORT_FILE
-
 exit 0
