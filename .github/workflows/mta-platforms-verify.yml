@@ -29,7 +29,7 @@ jobs:
       - name: Install podman
         run: .github/workflows/scripts/install-podman-macos.sh
       - name: Run MTA
-        run: podman run -v $(pwd):/opt/project:z,U quay.io/edeandrea/mta-cli:latest
+        run: podman run -v $GITHUB_WORKSPACE:/opt/project:z,U quay.io/edeandrea/mta-cli:latest
       - name: Assert MTA output
         run: .github/workflows/scripts/assertMta.sh
 
@@ -38,10 +38,10 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
-      - name: Install docker
+      - name: Install podman
         run: .github/workflows/scripts/install-podman-macos.sh
       - name: Run MTA
-        run: podman run -v $(pwd):/opt/project:z,U quay.io/edeandrea/mta-cli:latest
+        run: podman run -v $GITHUB_WORKSPACE:/opt/project:z,U quay.io/edeandrea/mta-cli:latest
       - name: Assert MTA output
         run: .github/workflows/scripts/assertMta.sh
 
