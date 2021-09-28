@@ -62,6 +62,8 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
+      - name: Switch to linux container
+        run: "& $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon"
       - name: Run MTA
         run: docker run -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest
       - name: Assert MTA output
