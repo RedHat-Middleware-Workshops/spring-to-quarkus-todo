@@ -94,14 +94,18 @@ We are going to use the [Red Hat Migration Toolkit for Applications (MTA)](https
 For this exercise we have [pre-built a container image](https://quay.io/repository/edeandrea/mta-cli) that runs the [command line interface](https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/5.2/html/cli_guide/index). This approach was chosen to make it easier to run without having to install anything on a local machine.
 > **NOTE:** The [`Dockerfile.mta`](Dockerfile.mta) file was used to create the container image being used.
 
-1. On the terminal from the project directory, run the command `docker run -it -v $(pwd):/opt/project quay.io/edeandrea/mta-cli:latest`
-   > **IMPORTANT**: This command works "as-is" on *nix/macos platforms.
-   > 
-   > If you are on Windows command line, you may need to substitute the command with `docker run -it -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest`.
-   >
-   > If on Windows PowerShell, you may need to substitute the command with `docker run -it -v ${PWD}:/opt/project quay.io/edeandrea/mta-cli:latest`.
-   > 
-   > If none of those options work for you, [see here](https://stackoverflow.com/questions/41485217/mount-current-directory-as-a-volume-in-docker-on-windows-10) for more information on obtaining the current working directory for the `-v` option.
+1. On the terminal from the project directory, run one of the following commands based on the operating system you are running:
+    - **\*nix/macos/Windows Subsystem for Linux (WSL):** `docker run -it -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest`
+       > **NOTE:** If using [podman](http://podman.io/), you could use the command `podman run -it -v $(pwd):/opt/project:z,U quay.io/edeandrea/mta-cli:latest`
+      
+    - **Windows**:
+        - **cmd (not PowerShell):** `docker run -it -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest`
+        - **PowerShell:** `docker run -it -v ${PWD}:/opt/project quay.io/edeandrea/mta-cli:latest`
+        - **git bash:** `winpty docker run -it -v "/$(pwd -W):/opt/project" quay.io/edeandrea/mta-cli:latest` or `winpty docker run -it -v "/$(cmd //c cd):/opt/project" quay.io/edeandrea/mta-cli:latest`
+
+       > If all else fails, you can hard-code the path to your current working directory (i.e. `docker run -it -v c:/path/to/spring-to-quarkus-todo:/opt/project quay.io/edeandrea/mta-cli:latest`).
+       > 
+       > If none of those options work for you, [see here](https://stackoverflow.com/questions/41485217/mount-current-directory-as-a-volume-in-docker-on-windows-10) for more information on obtaining the current working directory for the `-v` option.
 
 2. Once completed you will see something like:
    ```shell
@@ -420,14 +424,18 @@ When completed, your `pom.xml` should look like the [`pom.xml` in the solution b
 # Re-analyze the application
 Now let's re-analyze the application to see how much of the migration has been completed.
 
-1. On the terminal from the project directory, re-run the command `docker run -it -v $(pwd):/opt/project quay.io/edeandrea/mta-cli:latest`
-   > **IMPORTANT**: This command works "as-is" on *nix/macos platforms.
-   >
-   > If you are on Windows command line, you may need to substitute the command with `docker run -it -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest`.
-   >
-   > If on Windows PowerShell, you may need to substitute the command with `docker run -it -v ${PWD}:/opt/project quay.io/edeandrea/mta-cli:latest`.
-   >
-   > If none of those options work for you, [see here](https://stackoverflow.com/questions/41485217/mount-current-directory-as-a-volume-in-docker-on-windows-10) for more information on obtaining the current working directory for the `-v` option.
+1. On the terminal from the project directory, run one of the following commands based on the operating system you are running:
+   - **\*nix/macos/Windows Subsystem for Linux (WSL):** `docker run -it -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest`
+     > **NOTE:** If using [podman](http://podman.io/), you could use the command `podman run -it -v $(pwd):/opt/project:z,U quay.io/edeandrea/mta-cli:latest`
+
+   - **Windows**:
+      - **cmd (not PowerShell):** `docker run -it -v %cd%:/opt/project quay.io/edeandrea/mta-cli:latest`
+      - **PowerShell:** `docker run -it -v ${PWD}:/opt/project quay.io/edeandrea/mta-cli:latest`
+      - **git bash:** `winpty docker run -it -v "/$(pwd -W):/opt/project" quay.io/edeandrea/mta-cli:latest` or `winpty docker run -it -v "/$(cmd //c cd):/opt/project" quay.io/edeandrea/mta-cli:latest`
+
+     > If all else fails, you can hard-code the path to your current working directory (i.e. `docker run -it -v c:/path/to/spring-to-quarkus-todo:/opt/project quay.io/edeandrea/mta-cli:latest`).
+     >
+     > If none of those options work for you, [see here](https://stackoverflow.com/questions/41485217/mount-current-directory-as-a-volume-in-docker-on-windows-10) for more information on obtaining the current working directory for the `-v` option.
 
 2. Once completed you will see something like:
    ```shell
