@@ -40,6 +40,9 @@ The completed solution to this exercise can be found in this repo's `solution` b
    ```
    docker run -it --rm --name tododb -e POSTGRES_USER=todo -e POSTGRES_PASSWORD=todo -e POSTGRES_DB=tododb -p 5432:5432 postgres:13
    ```
+   
+   > **NOTE:** If you see an error related to rate limits (something like `You have reached your pull rate limit`), you need to first do a `docker login -u <YOUR_DOCKER_USERNAME>` in order to pull the image. If you don't have a username, you can [create a free account](https://hub.docker.com/signup).
+
 2. Run the application:
    ```shell
    ./mvnw clean spring-boot:run
@@ -578,4 +581,3 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
 7. Return to your browser to http://localhost:8080
 8. Everything should work as before! No hassle native image generation!
 9. Close both the application and the PostgreSQL instances via `CTRL-C` when you're done. 
-
