@@ -148,7 +148,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 
 1. In your editor/IDE, open [`pom.xml`](pom.xml)
 2. Find the `<parent>` section and remove it
-3. In the `<properties>` section, add `<quarkus.platform.version>2.2.3.Final</quarkus.platform.version>`
+3. In the `<properties>` section, add `<quarkus.platform.version>2.3.0.Final</quarkus.platform.version>`
 4. After the `<properties>` section but before the `<dependencies>` section, add the following block:
    ```xml
    <dependencyManagement>
@@ -454,12 +454,12 @@ Now let's re-analyze the application to see how much of the migration has been c
 5. In the terminal, run `./mvnw clean quarkus:dev`.
 6. The Quarkus application should start up, and you should see the Quarkus banner:
    ```shell
-   INFO  [io.qua.dev.pos.dep.PostgresqlDevServicesProcessor] (build-49) Dev Services for PostgreSQL started.
+   INFO  [io.qua.dat.dep.dev.DevServicesDatasourceProcessor] (build-39) Dev Services for the default datasource (postgresql) started.
    __  ____  __  _____   ___  __ ____  ______ 
    --/ __ \/ / / / _ | / _ \/ //_/ / / / __/
    -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
    --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 2.2.3.Final) started in 18.063s. Listening on: http://localhost:8080
+   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 2.3.0.Final) started in 18.063s. Listening on: http://localhost:8080
    INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
    INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, jdbc-postgresql, micrometer, narayana-jta, resteasy, resteasy-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui]
    ```
