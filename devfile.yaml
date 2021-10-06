@@ -4,7 +4,7 @@ metadata:
 projects:
   - name: spring-to-quarkus-todo
     source:
-      location: 'https://github.com/edeandrea/spring-to-quarkus-todo'
+      location: 'https://github.com/RedHat-Middleware-Workshops/spring-to-quarkus-todo'
       type: git
       branch: main
 components:
