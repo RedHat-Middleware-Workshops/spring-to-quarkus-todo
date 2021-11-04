@@ -52,7 +52,7 @@ The completed solution to this exercise can be found in this repo's `solution` b
     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
      '  |____| .__|_| |_|_| |_\__, | / / / /
     =========|_|==============|___/=/_/_/_/
-    :: Spring Boot ::                (v2.5.5)
+    :: Spring Boot ::                (v2.5.6)
    
    INFO 33595 --- [  restartedMain] com.acme.todo.TodoApplication            : Started TodoApplication in 5.073 seconds (JVM running for 5.544)
    ```
@@ -148,7 +148,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 
 1. In your editor/IDE, open [`pom.xml`](pom.xml)
 2. Find the `<parent>` section and remove it
-3. In the `<properties>` section, add `<quarkus.platform.version>2.3.0.Final</quarkus.platform.version>`
+3. In the `<properties>` section, add `<quarkus.platform.version>2.4.1.Final</quarkus.platform.version>`
 4. After the `<properties>` section but before the `<dependencies>` section, add the following block:
    ```xml
    <dependencyManagement>
@@ -414,7 +414,7 @@ Some issues that weren't caught by the tool but also need to be fixed:
        <dependency>
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-autoconfigure</artifactId>
-         <version>2.5.5</version>
+         <version>2.5.6</version>
          <optional>true</optional>
        </dependency>
        ```
