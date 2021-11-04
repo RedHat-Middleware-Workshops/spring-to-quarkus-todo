@@ -464,7 +464,7 @@ Now let's re-analyze the application to see how much of the migration has been c
    INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, jdbc-postgresql, micrometer, narayana-jta, resteasy, resteasy-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui]
    ```
 
-   > Notice the line `Dev Services for PostgreSQL started`. [Quarkus Dev Services](https://quarkus.io/guides/dev-services) noticed the PostgreSQL extension on the classpath and started a PostgreSQL container image automatically, while also automatically setting all the configuration properties for the application to communicate with it!
+   > Notice the line `Dev Services for the default datasource (postgresql) started`. [Quarkus Dev Services](https://quarkus.io/guides/dev-services) noticed the PostgreSQL extension on the classpath and started a PostgreSQL container image automatically, while also automatically setting all the configuration properties for the application to communicate with it!
 
 7. Re-open your browser to http://localhost:8080.
 8. You'll notice a bunch of exceptions in the console log. This is because we haven't finished converting the application. We still need to migrate some Spring datasource configuration.
