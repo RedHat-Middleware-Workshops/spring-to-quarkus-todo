@@ -10,7 +10,7 @@
 	<groupId>io.quarkus</groupId>
 	<artifactId>spring-to-quarkus-todo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>todo-spring-quarkus</name>
+	<name>spring-to-quarkus-todo</name>
 	<description>A Todo application that builds and runs as either Spring Boot and Quarkus!</description>
 	<properties>
 		<java.version>11</java.version>

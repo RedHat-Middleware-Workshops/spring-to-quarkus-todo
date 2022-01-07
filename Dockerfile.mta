@@ -2,7 +2,7 @@
 # https://quay.io/repository/edeandrea/mta-cli
 FROM registry.redhat.io/ubi8/openjdk-11-runtime:latest
 
-ENV MTA_VERSION="5.2.0.Final"
+ENV MTA_VERSION="5.2.1.Final"
 ENV MTA_BASE_DIR="/opt/mta"
 ENV MTA_NAME="mta-cli-${MTA_VERSION}"
 ENV PROJECT_DIR="/opt/project"
