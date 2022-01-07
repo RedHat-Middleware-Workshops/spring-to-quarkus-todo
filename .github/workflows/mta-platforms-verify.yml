@@ -15,7 +15,7 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v2
       - name: Run MTA
-        run: docker run -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/edeandrea/mta-cli:latest
+        run: docker run -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest
       - name: Assert MTA output
         run: .github/workflows/scripts/assertMta.sh
 
