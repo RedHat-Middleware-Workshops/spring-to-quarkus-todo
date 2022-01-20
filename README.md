@@ -148,7 +148,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 
 1. In your editor/IDE, open [`pom.xml`](pom.xml)
 2. Find the `<parent>` section and remove it
-3. In the `<properties>` section, add `<quarkus.platform.version>2.6.1.Final</quarkus.platform.version>`
+3. In the `<properties>` section, add `<quarkus.platform.version>2.6.2.Final</quarkus.platform.version>`
 4. After the `<properties>` section but before the `<dependencies>` section, add the following block:
    ```xml
    <dependencyManagement>
@@ -218,59 +218,26 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
      <artifactId>quarkus-smallrye-openapi</artifactId>
    </dependency>
    ```
-
+   
 8. The next issue is `Replace the Spring Boot Actuator dependency with Quarkus Smallrye Health extension`.
 
    In `pom.xml`, find
-    ```xml
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
-    ```
+      ```xml
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+      </dependency>
+      ```
 
    and, according to the [Quarkus - SmallRye Health Guide](https://quarkus.io/guides/smallrye-health), replace it with
-    ```xml
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-health</artifactId>
-    </dependency>
-    ```
+      ```xml
+      <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-smallrye-health</artifactId>
+      </dependency>
+      ```
 
-9. The next issue is `Spring component spring-boot-starter-test requires investigation`.
-
-   In `pom.xml`, find
-     ```xml
-     <dependency>
-       <groupId>org.springframework.boot</groupId>
-       <artifactId>spring-boot-starter-test</artifactId>
-       <scope>test</scope>
-     </dependency>
-     ```
-
-   and, according to the [Quarkus testing guide](https://quarkus.io/guides/getting-started-testing), replace it with
-     ```xml
-     <dependency>
-       <groupId>io.quarkus</groupId>
-       <artifactId>quarkus-junit5</artifactId>
-       <scope>test</scope>
-     </dependency>
-     ```
-
----
-
-Some issues that weren't caught by the tool but also need to be fixed:
-1. [Starting with Quarkus version 2.5, a user must choose the underlying JAX-RS engine](https://github.com/quarkusio/quarkus/wiki/Migration-Guide-2.5#spring-web). The RESTEasy Reactive extension has better performance than the RESTEasy Classic extension, so we will use that. See [RESTEasy Reactive - To block or not to block](https://quarkus.io/blog/resteasy-reactive-smart-dispatch/), [Massive performance without headaches](https://quarkus.io/blog/resteasy-reactive-faq/), and [A UI thread and a worker thread walk into a bar: a microbenchmark story](https://quarkus.io/blog/io-thread-benchmark/) for more information.
-
-   In `pom.xml`, add the `quarkus-resteasy-reactive-jackson` extension to the `<dependencies>` section:
-   ```xml
-   <dependency>
-     <groupId>io.quarkus</groupId>
-     <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
-   </dependency>
-   ```
-
-3. The `io.micrometer:micrometer-registry-prometheus` dependency. This needs to be swapped for the [Quarkus Micrometer extension](http://quarkus.io/guides/micrometer).
+9. The next issue is `Replace the 'micrometer-registry-prometheus' dependency with Quarkus 'quarkus-micrometer-registry-prometheus' extension`. [Micrometer Metrics](https://micrometer.io/) are used in Quarkus as well as in Spring Boot, but Quarkus applications need to use the [Quarkus Micrometer Metrics Extension](https://quarkus.io/guides/micrometer).
 
    In `pom.xml`, find
    ```xml
@@ -288,26 +255,59 @@ Some issues that weren't caught by the tool but also need to be fixed:
    </dependency>
    ```
 
-4. The `org.postgresql:postgresql` dependency needs to be swapped for the [Quarkus PostgreSQL extension](https://quarkus.io/guides/datasource#jdbc-datasource-2).
+10. The next issue is `Replace the 'postgresql' dependency with Quarkus 'quarkus-jdbc-postgresql' extension`. The `org.postgresql:postgresql` dependency needs to be swapped for the [Quarkus PostgreSQL extension](https://quarkus.io/guides/datasource#jdbc-datasource-2).
 
-   In `pom.xml`, find
-   ```xml
-   <dependency>
-     <groupId>org.postgresql</groupId>
-     <artifactId>postgresql</artifactId>
-     <scope>runtime</scope>
-   </dependency>
-   ```
+    In `pom.xml`, find
+    ```xml
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    ```
 
-   and replace it with
+    and replace it with
+    ```xml
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-postgresql</artifactId>
+    </dependency>
+    ```
+
+11. The next issue is `Spring component spring-boot-starter-test requires investigation`.
+
+    In `pom.xml`, find
+      ```xml
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+      </dependency>
+      ```
+
+    and, according to the [Quarkus testing guide](https://quarkus.io/guides/getting-started-testing), replace it with
+      ```xml
+      <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-junit5</artifactId>
+        <scope>test</scope>
+      </dependency>
+      ```
+
+---
+
+Some issues that weren't caught by the tool but also need to be fixed:
+1. [Starting with Quarkus version 2.5, a user must choose the underlying JAX-RS engine](https://github.com/quarkusio/quarkus/wiki/Migration-Guide-2.5#spring-web). The RESTEasy Reactive extension has better performance than the RESTEasy Classic extension, so we will use that. See [RESTEasy Reactive - To block or not to block](https://quarkus.io/blog/resteasy-reactive-smart-dispatch/), [Massive performance without headaches](https://quarkus.io/blog/resteasy-reactive-faq/), and [A UI thread and a worker thread walk into a bar: a microbenchmark story](https://quarkus.io/blog/io-thread-benchmark/) for more information.
+
+   In `pom.xml`, add the `quarkus-resteasy-reactive-jackson` extension to the `<dependencies>` section:
    ```xml
    <dependency>
      <groupId>io.quarkus</groupId>
-     <artifactId>quarkus-jdbc-postgresql</artifactId>
+     <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
    </dependency>
    ```
 
-5. The `org.springframework.boot:spring-boot-devtools` isn't needed. The [Spring Boot Developer Tools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) provides features aiming to enhance developer productivity, such as live reload. These features are part of the core of Quarkus.
+2. The `org.springframework.boot:spring-boot-devtools` isn't needed. The [Spring Boot Developer Tools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) provides features aiming to enhance developer productivity, such as live reload. These features are part of the core of Quarkus.
 
    In `pom.xml`, find
    ```xml
@@ -320,7 +320,7 @@ Some issues that weren't caught by the tool but also need to be fixed:
 
    and remove it
 
-6. The `org.springframework.boot:spring-boot-maven-plugin` needs to be changed so that the application [is built with Quarkus](https://quarkus.io/guides/maven-tooling#build-tool-maven), both for running on the JVM and in native image.
+3. The `org.springframework.boot:spring-boot-maven-plugin` needs to be changed so that the application [is built with Quarkus](https://quarkus.io/guides/maven-tooling#build-tool-maven), both for running on the JVM and in native image.
 
    In `pom.xml`, find
    ```xml
@@ -408,7 +408,7 @@ Some issues that weren't caught by the tool but also need to be fixed:
 
    > **NOTE:** While this replacement might seem like a lot of XML, it also sets up the application to [build a native image](https://quarkus.io/guides/building-native-image) using the `native` Maven profile.
 
-7. A Spring Boot application also contains a "main" class with the `@SpringBootApplication` annotation. A Quarkus application does not have such a class. There are 2 options that can be taken:
+4. A Spring Boot application also contains a "main" class with the `@SpringBootApplication` annotation. A Quarkus application does not have such a class. There are 2 options that can be taken:
    1. Remove the [`src/main/java/com/acme/todo/TodoApplication.java`](src/main/java/com/acme/todo/TodoApplication.java) class
 
    **OR**
@@ -465,7 +465,7 @@ Now let's re-analyze the application to see how much of the migration has been c
    --/ __ \/ / / / _ | / _ \/ //_/ / / / __/
    -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
    --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 2.6.1.Final) started in 24.005s. Listening on: http://localhost:8080
+   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 2.6.2.Final) started in 24.005s. Listening on: http://localhost:8080
    INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
    INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, jdbc-postgresql, micrometer, narayana-jta, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui, vertx]
 
