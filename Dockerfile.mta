@@ -29,4 +29,4 @@ RUN mkdir -p $HOME/.mta/ignore && \
 
 WORKDIR ${PROJECT_DIR}
 
-CMD ${MTA_HOME}/bin/mta-cli --sourceMode --input . --output ${OUTPUT_DIR} --source springboot --target quarkus --packages ${PACKAGE_NAME} --overwrite --explodedApp
+CMD ${MTA_HOME}/bin/mta-cli --sourceMode --input . --output ${OUTPUT_DIR} --target quarkus --packages ${PACKAGE_NAME} --overwrite --explodedApp
