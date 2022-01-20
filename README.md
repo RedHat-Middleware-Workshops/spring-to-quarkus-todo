@@ -276,14 +276,14 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 
 11. The next issue is `Spring component spring-boot-starter-test requires investigation`.
 
-    In `pom.xml`, find
-    ```xml
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    ```
+   In `pom.xml`, find
+   ```xml
+   <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-test</artifactId>
+     <scope>test</scope>
+   </dependency>
+   ```
 
    and, according to the [Quarkus testing guide](https://quarkus.io/guides/getting-started-testing), replace it with
    ```xml
