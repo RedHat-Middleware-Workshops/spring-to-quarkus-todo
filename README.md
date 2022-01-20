@@ -222,20 +222,20 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 8. The next issue is `Replace the Spring Boot Actuator dependency with Quarkus Smallrye Health extension`.
 
    In `pom.xml`, find
-      ```xml
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-actuator</artifactId>
-      </dependency>
-      ```
+   ```xml
+   <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-actuator</artifactId>
+   </dependency>
+   ```
 
    and, according to the [Quarkus - SmallRye Health Guide](https://quarkus.io/guides/smallrye-health), replace it with
-      ```xml
-      <dependency>
-        <groupId>io.quarkus</groupId>
-        <artifactId>quarkus-smallrye-health</artifactId>
-      </dependency>
-      ```
+   ```xml
+   <dependency>
+     <groupId>io.quarkus</groupId>
+     <artifactId>quarkus-smallrye-health</artifactId>
+   </dependency>
+   ```
 
 9. The next issue is `Replace the 'micrometer-registry-prometheus' dependency with Quarkus 'quarkus-micrometer-registry-prometheus' extension`. [Micrometer Metrics](https://micrometer.io/) are used in Quarkus as well as in Spring Boot, but Quarkus applications need to use the [Quarkus Micrometer Metrics Extension](https://quarkus.io/guides/micrometer).
 
