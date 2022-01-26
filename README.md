@@ -297,7 +297,9 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 ---
 
 Some issues that weren't caught by the tool but also need to be fixed:
-1. [Starting with Quarkus version 2.5, a user must choose the underlying JAX-RS engine](https://github.com/quarkusio/quarkus/wiki/Migration-Guide-2.5#spring-web). The RESTEasy Reactive extension has better performance than the RESTEasy Classic extension, so we will use that. See [RESTEasy Reactive - To block or not to block](https://quarkus.io/blog/resteasy-reactive-smart-dispatch/), [Massive performance without headaches](https://quarkus.io/blog/resteasy-reactive-faq/), and [A UI thread and a worker thread walk into a bar: a microbenchmark story](https://quarkus.io/blog/io-thread-benchmark/) for more information.
+1. [Starting with Quarkus version 2.5, a user must choose the underlying JAX-RS engine](https://github.com/quarkusio/quarkus/wiki/Migration-Guide-2.5#spring-web). The RESTEasy Reactive extension has better performance than the RESTEasy Classic extension, so we will use that.
+
+   > **NOTE:** Selecting the RESTEasy Reactive extension does not mean we are (or have to) build a reactive application. It only affects the underlying engine. See [RESTEasy Reactive - To block or not to block](https://quarkus.io/blog/resteasy-reactive-smart-dispatch/), [Massive performance without headaches](https://quarkus.io/blog/resteasy-reactive-faq/), and [A UI thread and a worker thread walk into a bar: a microbenchmark story](https://quarkus.io/blog/io-thread-benchmark/) for more information.
 
    In `pom.xml`, add the `quarkus-resteasy-reactive-jackson` extension to the `<dependencies>` section:
    ```xml
