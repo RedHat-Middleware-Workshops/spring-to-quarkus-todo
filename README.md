@@ -56,7 +56,7 @@ The completed solution to this exercise can be found in this repo's `solution` b
     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
      '  |____| .__|_| |_|_| |_\__, | / / / /
     =========|_|==============|___/=/_/_/_/
-    :: Spring Boot ::                (v2.6.7)
+    :: Spring Boot ::                (v2.7.0)
    
    INFO 33595 --- [  restartedMain] com.acme.todo.TodoApplication            : Started TodoApplication in 5.073 seconds (JVM running for 5.544)
    ```
@@ -152,7 +152,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 
 1. In your editor/IDE, open [`pom.xml`](pom.xml)
 2. Find the `<parent>` section and remove it
-3. In the `<properties>` section, add `<quarkus.platform.version>2.8.2.Final</quarkus.platform.version>`
+3. In the `<properties>` section, add `<quarkus.platform.version>2.9.2.Final</quarkus.platform.version>`
 4. After the `<properties>` section but before the `<dependencies>` section, add the following block:
    ```xml
    <dependencyManagement>
@@ -428,7 +428,7 @@ A Spring Boot application also contains a "main" class with the `@SpringBootAppl
    <dependency>
      <groupId>org.springframework.boot</groupId>
      <artifactId>spring-boot-autoconfigure</artifactId>
-     <version>2.6.7</version>
+     <version>2.7.0</version>
      <optional>true</optional>
    </dependency>
    ```
@@ -449,13 +449,13 @@ Some issues that weren't caught by the tool but also need to be fixed:
     </dependency>
     ```
    
-    and add `<version>3.22.0</version>`. The resulting dependency should be
+    and add `<version>3.23.1.0</version>`. The resulting dependency should be
 
     ```xml
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.22.0</version>
+      <version>3.23.1.0</version>
       <scope>test</scope>
     </dependency>
     ```
@@ -498,7 +498,7 @@ Now let's re-analyze the application to see how much of the migration has been c
    --/ __ \/ / / / _ | / _ \/ //_/ / / / __/
    -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
    --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 2.8.2.Final) started in 18.927s. Listening on: http://localhost:8080
+   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 2.9.2.Final) started in 18.927s. Listening on: http://localhost:8080
    INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
    INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, jdbc-postgresql, micrometer, narayana-jta, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui, vertx]
 
@@ -584,21 +584,19 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
    2. Inside `src/main/docker`, create the file `Dockerfile.native`
    3. Paste in the following into `Dockerfile.native`:
       ```dockerfile
-      FROM quay.io/quarkus/quarkus-micro-image:1.0
+      FROM registry.access.redhat.com/ubi8/ubi-minimal:8.5
       WORKDIR /work/
       RUN chown 1001 /work \
           && chmod "g+rwX" /work \
           && chown 1001:root /work
       COPY --chown=1001:root target/*-runner /work/application
-
+      
       EXPOSE 8080
       USER 1001
-
+      
       CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
       ```
-
-   > This `Dockerfile` uses the [Quarkus Micro Image](https://quarkus.io/guides/building-native-image#manually) as parent image. This base image has been tailored to work perfectly in containers.
-
+   
    4. Save and close `src/main/docker/Dockerfile.native`
 
 3. Building a native image can be accomplished by running `./mvnw package -Pnative -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Dquarkus.container-image.group=` in the terminal. Building a native image may take several minutes to complete depending on the specs of your machine and how much CPU/RAM is available.
