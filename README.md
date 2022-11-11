@@ -52,7 +52,7 @@ The completed solution to this exercise can be found in this repo's `solution` b
     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
      '  |____| .__|_| |_|_| |_\__, | / / / /
     =========|_|==============|___/=/_/_/_/
-    :: Spring Boot ::                (v2.7.0)
+    :: Spring Boot ::                (v2.7.5)
    
    INFO 33595 --- [  restartedMain] com.acme.todo.TodoApplication            : Started TodoApplication in 5.073 seconds (JVM running for 5.544)
    ```
@@ -219,7 +219,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    <dependency>
      <groupId>org.springdoc</groupId>
      <artifactId>springdoc-openapi-ui</artifactId>
-     <version>1.6.8</version>
+     <version>1.6.12</version>
    </dependency>
    ```
 
@@ -424,7 +424,7 @@ A Spring Boot application also contains a "main" class with the `@SpringBootAppl
    <dependency>
      <groupId>org.springframework.boot</groupId>
      <artifactId>spring-boot-autoconfigure</artifactId>
-     <version>2.7.0</version>
+     <version>2.7.5</version>
      <optional>true</optional>
    </dependency>
    ```
