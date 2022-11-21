@@ -102,7 +102,7 @@ We are going to use the [Red Hat Migration Toolkit for Runtimes (MTR)](https://d
     - [IntelliJ IDEA](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/intellij_idea_plugin_guide/index)
     - [Visual Studio Code](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/visual_studio_code_extension_guide/index)
 
-For this exercise we have [pre-built a container image](https://quay.io/repository/rhappsvcs/spring-to-quarkus-mta-cli) that runs the [command line interface](https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/5.3/html/cli_guide/index). This approach was chosen to make it easier to run without having to install anything on a local machine.
+For this exercise we have [pre-built a container image](https://quay.io/repository/rhappsvcs/spring-to-quarkus-mta-cli) that runs the [command line interface](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/cli_guide/index). This approach was chosen to make it easier to run without having to install anything on a local machine.
 > **NOTE:** The [`spring-to-quarkus-mta-cli` repository](https://github.com/RedHat-Middleware-Workshops/spring-to-quarkus-mta-cli) contains the tooling to create the container image being used.
 
 1. On the terminal from the project directory, run one of the following commands based on the operating system you are running:
@@ -636,4 +636,4 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
 
 7. Return to your browser to http://localhost:8080
 8. Everything should work as before! No hassle native image generation!
-9. Close both the application and the PostgreSQL instances via `CTRL-C` when you're done.
+9. Close both the application and the PostgreSQL instances via `CTRL-C` when you're done. 
