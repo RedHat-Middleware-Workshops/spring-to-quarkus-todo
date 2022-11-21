@@ -583,7 +583,7 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
    2. Inside `src/main/docker`, create the file `Dockerfile.native`
    3. Paste in the following into `Dockerfile.native`:
       ```dockerfile
-      FROM registry.access.redhat.com/ubi8/ubi-minimal:8.6
+      FROM quay.io/quarkus/quarkus-micro-image:2.0
       WORKDIR /work/
       RUN chown 1001 /work \
           && chmod "g+rwX" /work \
