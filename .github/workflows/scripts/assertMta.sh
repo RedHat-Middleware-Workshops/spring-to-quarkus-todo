@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MTA_REPORT_DIR=$GITHUB_WORKSPACE/mta-report
+MTA_REPORT_DIR=$GITHUB_WORKSPACE/windup-report
 MTA_REPORT_FILE=$MTA_REPORT_DIR/index.html
 
 echo "Checking whether $MTA_REPORT_DIR exists"
