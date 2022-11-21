@@ -89,11 +89,14 @@ The completed solution to this exercise can be found in this repo's `solution` b
 - Open [`src/main/resources/import.sql`](src/main/resources/import.sql) to find some SQL that will pre-populate the database table with an initial set of data.
 
 # Analyze the application for migration
-We are going to use the [Red Hat Migration Toolkit for Applications (MTA)](https://developers.redhat.com/products/mta/overview) to analyze the application. MTA can be run in a number of different ways:
-- A [web application](https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/5.2/html/web_console_guide/index) running locally or on some remote machine.
-- A [command line interface](https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/5.2/html/cli_guide/index).
-- A [plugin to most major IDEs](https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/5.2/html/ide_plugin_guide/index).
-- A [Maven plugin](https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/5.2/html/maven_plugin_guide/index).
+We are going to use the [Red Hat Migration Toolkit for Runtimes (MTR)](https://developers.redhat.com/products/mtr/overview) to analyze the application. MTR can be run in a number of different ways:
+- A [web application](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/web_console_guide/index) running locally or on some remote machine.
+- A [command line interface](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/cli_guide/index).
+- A [Maven plugin](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/maven_plugin_guide/index).
+- A plugin to most major IDEs
+    - [Eclipse and Red Hat CodeReady Studio](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/eclipse_and_red_hat_codeready_studio_guide/index)
+    - [IntelliJ IDEA](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/intellij_idea_plugin_guide/index)
+    - [Visual Studio Code](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/visual_studio_code_extension_guide/index)
 
 For this exercise we have [pre-built a container image](https://quay.io/repository/rhappsvcs/spring-to-quarkus-mta-cli) that runs the [command line interface](https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/5.3/html/cli_guide/index). This approach was chosen to make it easier to run without having to install anything on a local machine.
 > **NOTE:** The [`spring-to-quarkus-mta-cli` repository](https://github.com/RedHat-Middleware-Workshops/spring-to-quarkus-mta-cli) contains the tooling to create the container image being used.
@@ -113,10 +116,10 @@ For this exercise we have [pre-built a container image](https://quay.io/reposito
 
 2. Once completed you will see something like:
    ```shell
-   Report created: /opt/project/mta-report/index.html
-              Access it at this URL: file:///opt/project/mta-report/index.html
+   Report created: /opt/project/windup-report/index.html
+              Access it at this URL: file:///opt/project/windup-report/index.html
    ```
-3. In your browser, open up the newly-created `mta-report/index.html` page within the project. You should see the **Application List** page:
+3. In your browser, open up the newly-created `windup-report/index.html` page within the project. You should see the **Application List** page:
 
    ![Application List](images/mta-app-list.png)
 
@@ -148,7 +151,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 
 1. In your editor/IDE, open [`pom.xml`](pom.xml)
 2. Find the `<parent>` section and remove it
-3. In the `<properties>` section, add `<quarkus.platform.version>2.14.0.Final</quarkus.platform.version>`
+3. In the `<properties>` section, add `<quarkus.platform.version>2.14.1.Final</quarkus.platform.version>`
 4. After the `<properties>` section but before the `<dependencies>` section, add the following block:
    ```xml
    <dependencyManagement>
@@ -478,8 +481,8 @@ Now let's re-analyze the application to see how much of the migration has been c
 
 2. Once completed you will see something like:
    ```shell
-   Report created: /opt/project/mta-report/index.html
-              Access it at this URL: file:///opt/project/mta-report/index.html
+   Report created: /opt/project/windup-report/index.html
+              Access it at this URL: file:///opt/project/windup-report/index.html
    ```
 
 3. Clicking back to the **Issues** tab should only show a few categories of issues. The remainder of the issues are fixed with configuration in the [`application.properties`](src/main/resources/application.properties) file.
