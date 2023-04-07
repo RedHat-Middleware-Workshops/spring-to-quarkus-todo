@@ -85,7 +85,7 @@ The completed solution to this exercise can be found in this repo's `solution` b
    - Open [`src/main/java/com/acme/todo/domain/TodoEntity.java`](src/main/java/com/acme/todo/domain/TodoEntity.java) to find the [Java Persistence API (JPA)](https://www.oracle.com/java/technologies/persistence-jsp.html), representing the relational table for storing the todos.
    - Open [`src/main/java/com/acme/todo/repository/TodoRepository.java`](src/main/java/com/acme/todo/repository/TodoRepository.java) to find the [Spring Data JPA Repository](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories), exposing all of the create, read, update, and delete operations for the `TodoEntity`.
 - [Spring Boot Actuators](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html) for providing operational capabilities, including health checks and metrics gathering.
-- [SpringDoc OpenAPI 3](https://springdoc.org/) for generating and exposing RESTful API information as well as the embedded Swagger UI endpoint.
+- [SpringDoc OpenAPI 3](https://springdoc.org/v2) for generating and exposing RESTful API information as well as the embedded Swagger UI endpoint.
   > **NOTE:** Spring Boot on its own does not have a starter providing this capability.
 - [Prometheus Micrometer Registry](https://micrometer.io/docs/registry/prometheus) for exposing metrics to Prometheus.
 - Open [`src/main/resources/META-INF/resources`](src/main/resources/META-INF/resources) to find the user interface components used.
