@@ -4,14 +4,12 @@ on:
   push:
     branches:
       - main
-      - solution
     paths-ignore:
       - '**/*.md'
       - 'images/**'
   pull_request:
     branches:
       - main
-      - solution
     paths-ignore:
       - '**/*.md'
       - 'images/**'
