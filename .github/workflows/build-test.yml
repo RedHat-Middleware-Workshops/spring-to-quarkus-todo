@@ -1,0 +1,38 @@
+name: Build and test
+
+on:
+  push:
+    branches:
+      - main
+      - solution
+    paths-ignore:
+      - '**/*.md'
+      - 'images/**'
+  pull_request:
+    branches:
+      - main
+      - solution
+    paths-ignore:
+      - '**/*.md'
+      - 'images/**'
+  workflow_dispatch:
+
+concurrency:
+  group: "workflow = ${{ github.workflow }}, ref = ${{ github.event.ref }}, pr = ${{ github.event.pull_request.id }}"
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+          cache: maven
+
+      - name: build-test
+        run: ./mvnw -B clean verify

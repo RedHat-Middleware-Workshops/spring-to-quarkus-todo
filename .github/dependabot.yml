@@ -1,0 +1,27 @@
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: /
+    open-pull-requests-limit: 10
+    schedule:
+      interval: daily
+
+  - package-ecosystem: maven
+    directory: /
+    open-pull-requests-limit: 10
+    target-branch: solution
+    schedule:
+      interval: daily
+
+  - package-ecosystem: github-actions
+    directory: /
+    open-pull-requests-limit: 10
+    schedule:
+      interval: daily
+
+  - package-ecosystem: github-actions
+    directory: /
+    open-pull-requests-limit: 10
+    target-branch: solution
+    schedule:
+      interval: daily
