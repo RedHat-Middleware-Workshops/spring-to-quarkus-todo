@@ -7,6 +7,7 @@ This is the solution branch containing the outcome after following the below tut
 - [Additional Resources](#additional-resources)
 - [Prerequisites](#prerequisites)
 - [Run the application](#run-the-application)
+- [Run the tests](#run-the-tests)
 - [Examine the internals](#examine-the-internals)
 - [Analyze the application for migration](#analyze-the-application-for-migration)
 - [Correct Issues](#correct-issues)
@@ -78,6 +79,11 @@ The completed solution to this exercise can be found in this repo's `solution` b
 6. Run `./mvnw clean` to clean things up.
 7. **IMPORTANT!** Also make sure to stop the docker daemon running the PostgreSQL database from step 1 before proceeding (you can use `CTRL-C` to stop it).
 
+# Run the tests
+Every application should have tests! This application is no different!
+
+Run the command `./mvnw clean verify` to run the tests. You should notice that doing this will automatically start a PostgreSQL database. The application uses the [Testcontainers Postgres Module](https://www.testcontainers.org/modules/databases/postgres/) to accomplish this.
+
 # Examine the internals
 - [Spring MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html) for building the REST layer:
    - Open [`src/main/java/com/acme/todo/rest/TodoController.java`](src/main/java/com/acme/todo/rest/TodoController.java) to find the Spring MVC RESTful controller, exposing the various endpoints available to the user interface.
@@ -88,6 +94,9 @@ The completed solution to this exercise can be found in this repo's `solution` b
 - [SpringDoc OpenAPI 3](https://springdoc.org/v2) for generating and exposing RESTful API information as well as the embedded Swagger UI endpoint.
   > **NOTE:** Spring Boot on its own does not have a starter providing this capability.
 - [Prometheus Micrometer Registry](https://micrometer.io/docs/registry/prometheus) for exposing metrics to Prometheus.
+- Testing
+    - Open [`src/test/java/com/acme/todo/test/TodoControllerTests.java`](src/test/java/com/acme/todo/rest/TodoControllerTests.java) to find the [rest-assured](https://rest-assured.io/) tests for the controller layer.
+    - Open [`src/test/resources/application.properties`](src/test/resources/application.properties) to find the [Testcontainers Postgres Module](https://www.testcontainers.org/modules/databases/postgres/) configuration.
 - Open [`src/main/resources/META-INF/resources`](src/main/resources/META-INF/resources) to find the user interface components used.
 - Open [`src/main/resources/application.properties`](src/main/resources/application.properties) to find the application configuration.
 - Open [`src/main/resources/import.sql`](src/main/resources/import.sql) to find some SQL that will pre-populate the database table with an initial set of data.
@@ -219,7 +228,25 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    </dependency>
    ```
 
-7. The next issue is `Spring component springdoc-openapi-starter-webmvc-ui requires investigation`. [SpringDoc OpenAPI](https://springdoc.org/) is a 3rd party open source library that isn't part of Spring itself. Luckily, there is the [Quarkus OpenAPI extension](https://quarkus.io/guides/openapi-swaggerui).
+7. The next issue is `Spring component spring-boot-starter-validation requires investigation`.
+
+   In `pom.xml`, find
+   ```xml
+   <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-validation</artifactId>
+   </dependency>
+   ```
+
+   and, according to the [Quarkus Validation with Hibernate Validator Guide](https://quarkus.io/guides/validation), replace it with
+   ```xml
+   <dependency>
+     <groupId>io.quarkus</groupId>
+     <artifactId>quarkus-hibernate-validator</artifactId>
+   </dependency>
+   ```
+
+8. The next issue is `Spring component springdoc-openapi-starter-webmvc-ui requires investigation`. [SpringDoc OpenAPI](https://springdoc.org/) is a 3rd party open source library that isn't part of Spring itself. Luckily, there is the [Quarkus OpenAPI extension](https://quarkus.io/guides/openapi-swaggerui).
 
    In `pom.xml`, find
    ```xml
@@ -238,7 +265,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    </dependency>
    ```
    
-8. The next issue is `Replace the Spring Boot Actuator dependency with Quarkus Smallrye Health extension`.
+9. The next issue is `Replace the Spring Boot Actuator dependency with Quarkus Smallrye Health extension`.
 
    In `pom.xml`, find
    ```xml
@@ -256,7 +283,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    </dependency>
    ```
 
-9. The next issue is `Replace the 'micrometer-registry-prometheus' dependency with Quarkus 'quarkus-micrometer-registry-prometheus' extension`. [Micrometer Metrics](https://micrometer.io/) are used in Quarkus as well as in Spring Boot, but Quarkus applications need to use the [Quarkus Micrometer Metrics Extension](https://quarkus.io/guides/micrometer).
+10. The next issue is `Replace the 'micrometer-registry-prometheus' dependency with Quarkus 'quarkus-micrometer-registry-prometheus' extension`. [Micrometer Metrics](https://micrometer.io/) are used in Quarkus as well as in Spring Boot, but Quarkus applications need to use the [Quarkus Micrometer Metrics Extension](https://quarkus.io/guides/micrometer).
 
    In `pom.xml`, find
    ```xml
@@ -274,7 +301,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    </dependency>
    ```
    
-10. The next issue is `Replace the 'postgresql' dependency with Quarkus 'quarkus-jdbc-postgresql' extension`. The `org.postgresql:postgresql` dependency needs to be swapped for the [Quarkus PostgreSQL extension](https://quarkus.io/guides/datasource#jdbc-datasource-2).
+11. The next issue is `Replace the 'postgresql' dependency with Quarkus 'quarkus-jdbc-postgresql' extension`. The `org.postgresql:postgresql` dependency needs to be swapped for the [Quarkus PostgreSQL extension](https://quarkus.io/guides/datasource#jdbc-datasource-2).
 
     In `pom.xml`, find
     ```xml
@@ -293,7 +320,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
     </dependency>
     ```
 
-11. The next issue is `Remove spring-boot-devtools dependency`. The `org.springframework.boot:spring-boot-devtools` isn't needed. The [Spring Boot Developer Tools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) provides features aiming to enhance developer productivity, such as live reload. These features are part of the core of Quarkus.
+12. The next issue is `Remove spring-boot-devtools dependency`. The `org.springframework.boot:spring-boot-devtools` isn't needed. The [Spring Boot Developer Tools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) provides features aiming to enhance developer productivity, such as live reload. These features are part of the core of Quarkus.
 
     In `pom.xml`, find
     ```xml
@@ -306,7 +333,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 
     and remove it
 
-12. The next issue is `Spring component spring-boot-starter-test requires investigation`.
+13. The next issue is `Spring component spring-boot-starter-test requires investigation`.
 
     In `pom.xml`, find
     ```xml
@@ -317,7 +344,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
     </dependency>
     ```
 
-    and, according to the [Quarkus testing guide](https://quarkus.io/guides/getting-started-testing), replace it with
+    and, according to the [Quarkus testing guide](https://quarkus.io/guides/getting-started-testing), replace it with both of these dependencies:
     ```xml
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -325,8 +352,18 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
       <scope>test</scope>
     </dependency>
     ```
+    
+    AND
 
-13. The next issue is `Replace the spring-boot-maven-plugin dependency`. The `org.springframework.boot:spring-boot-maven-plugin` needs to be changed so that the application [is built with Quarkus](https://quarkus.io/guides/maven-tooling#build-tool-maven), both for running on the JVM and in native image.
+    ```xml
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit5-mockito</artifactId>
+      <scope>test</scope>
+    </dependency>
+    ```
+
+14. The next issue is `Replace the spring-boot-maven-plugin dependency`. The `org.springframework.boot:spring-boot-maven-plugin` needs to be changed so that the application [is built with Quarkus](https://quarkus.io/guides/maven-tooling#build-tool-maven), both for running on the JVM and in native image.
 
     In `pom.xml`, find
     ```xml
@@ -452,13 +489,67 @@ Some issues that weren't caught by the tool but also need to be fixed:
     </dependency>
     ```
    
-    and add `<version>3.24.2</version>`. The resulting dependency should be
+    and add `<version>3.24.2</version>` because the Quarkus BOM does not manage the version of the [AssertJ](https://assertj.github.io/doc/) dependency. The resulting dependency should be
 
     ```xml
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
       <version>3.24.2</version>
+      <scope>test</scope>
+    </dependency>
+    ```
+
+2. Remove the [Testcontainers](https://www.testcontainers.org) dependencies.
+
+    In `pom.xml`, find
+    ```xml
+   <dependencyManagement>
+      <dependencies>
+        <dependency>
+          <groupId>org.testcontainers</groupId>
+          <artifactId>testcontainers-bom</artifactId>
+          <version>1.18.0</version>
+          <type>pom</type>
+          <scope>import</scope>
+        </dependency>
+      </dependencies>
+    </dependencyManagement>
+    ```
+
+    and remove it, then find
+    ```xml
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>test</scope>
+    </dependency>
+    ```
+
+    and remove them as well.
+
+3. Change the [rest-assured](https://rest-assured.io) dependency. Currently the application uses [rest-assured's Spring Support](https://github.com/rest-assured/rest-assured/wiki/Spring#spring-support). Rest-assured support is supported out-of-the-box in Quarkus and it's version is managed by the Quarkus BOM.
+
+    In `pom.xml`, find
+    ```xml
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>spring-mock-mvc</artifactId>
+      <version>5.3.0</version>
+      <scope>test</scope>
+    </dependency>
+    ```
+   
+    and replace it with
+    ```xml
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
       <scope>test</scope>
     </dependency>
     ```
@@ -494,14 +585,18 @@ Now let's re-analyze the application to see how much of the migration has been c
 
 4. Before proceeding, let's start the newly-converted Quarkus application in [Quarkus's Dev Mode](https://quarkus.io/guides/maven-tooling#dev-mode).
 5. In the terminal, run `./mvnw clean quarkus:dev`.
+   > You will probably get some test compilation errors. That's ok at this point. We will fix that in a few minutes.
+
 6. The Quarkus application should start up, and you should see the Quarkus banner:
    ```shell
-   INFO  [io.qua.dat.dep.dev.DevServicesDatasourceProcessor] (build-46) Dev Services for the default datasource (postgresql) started.
+   INFO  [io.qua.dat.dep.dev.DevServicesDatasourceProcessor] (build-35) Dev Services for the default datasource (postgresql) started - container ID is a4906cdb0f94
+   INFO  [io.qua.hib.orm.dep.dev.HibernateOrmDevServicesProcessor] (build-75) Setting quarkus.hibernate-orm.database.generation=drop-and-create to initialize Dev Services managed database
    __  ____  __  _____   ___  __ ____  ______ 
-   --/ __ \/ / / / _ | / _ \/ //_/ / / / __/
-   -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
+    --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
+    -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
    --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 2.14.1.Final) started in 3.441s. Listening on: http://localhost:8080
+
+   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 3.0.0.CR2) started in 4.016s. Listening on: http://localhost:8080
    INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
    INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, jdbc-postgresql, micrometer, narayana-jta, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui, vertx]
 
@@ -566,9 +661,67 @@ There are a couple of other properties that the analysis didn't find.
    > [Quarkus Dev Mode](https://quarkus.io/guides/maven-tooling#dev-mode) has seamlessly redeployed your application while also creating the necessary schema and even importing sample data from [`src/main/resources/import.sql`](src/main/resources/import.sql).
 
 3. Navigate to http://localhost:8080/q/dev (or in your terminal where Dev Mode is running, press `d`) to view the [Quarkus Dev UI](https://quarkus.io/guides/dev-ui), a landing page for interacting with your application. All extensions used by the application should show up here along with links to their documentation. Some extensions provide the ability to interact and modify configuration right from the UI.
-    > [Continuous testing](https://quarkus.io/guides/continuous-testing) can be enabled and controlled from within the UI. [A video demo is available](https://youtu.be/0JiE-bRt-GU) showcasing continuous testing features.
 
-4. Hit `CTRL-C` (or press `q`) in your terminal once done.
+4. Now let's fix the tests so that they run.
+    1. In your terminal where Quarkus dev mode is running, press the `r` key to enable [Quarkus Continuous Testing](https://quarkus.io/guides/continuous-testing). You should see the console display `No tests found`.
+    2. [Quarkus Dev Services for Databases](https://quarkus.io/guides/databases-dev-services) automatically provisions a database container for the running application AND while executing tests. Therefore, we do not need the [`src/test/resources/application.properties`](src/test/resources/application.properties) file. Delete [`src/test/resources/application.properties`](src/test/resources/application.properties).
+    3. Open [`src/test/java/com/acme/todo/rest/TodoControllerTests.java`](src/test/java/com/acme/todo/rest/TodoControllerTests.java).
+       > You might find as you move through the following steps that your terminal window starts going crazy with lots of errors. [Quarkus Continuous Testing](https://quarkus.io/guides/continuous-testing) is continually recompiling and re-executing the tests in the background and reporting back to the console. Once you complete the following steps you should get green text at the bottom saying that all tests pass.
+
+        1. Remove the `@SpringBootTest` and `@AutoConfigureMockMvc` annotations on the class.
+        2. Add the `@QuarkusTest` annotation to the class. 
+        3. Find
+        
+            ```java
+            @Autowired
+            MockMvc mockMvc;
+            ```
+           
+            and remove it.
+        4. Find 
+    
+            ```java
+            @MockBean
+            TodoRepository todoRepository;
+            ```
+           
+            and change it to
+        
+            ```java
+            @InjectMock
+            TodoRepository todoRepository;
+            ```
+           
+        5. Find
+       
+            ```java
+            @BeforeEach
+            public void beforeEach() {
+              RestAssuredMockMvc.mockMvc(this.mockMvc);
+            }
+            ```
+           
+            and remove it.
+    
+        6. Find
+       
+            ```java
+            import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
+            ```
+           
+            and replace it with
+   
+            ```java
+            import static io.restassured.RestAssured.*;
+            ```
+       
+        7. You may need to optimize your imports depending on your IDE. You can inspect the imports on the [`solution` branch](https://github.com/RedHat-Middleware-Workshops/spring-to-quarkus-todo/blob/solution/src/test/java/com/acme/todo/rest/TodoControllerTests.java) to see what you need if you run into a problem.  
+
+        8. In the terminal you should now see `All 5 tests are passing (0 skipped), 5 tests were run in 396ms. Tests completed at 14:40:08 due to changes to TodoControllerTests.class.` indicating that all the tests are now passing.
+        
+           > If you modify any tests, or any of the source code, the tests should automatically re-run, giving you an instant feedback loop.
+
+5. Hit `CTRL-C` (or press `q`) in your terminal once done.
 
 # Bonus: No hassle native image
 As a bonus exercise, let's create and run a Quarkus native image. Writing this exercise we don't know what host OS each individual is using, so we will use container images to facilitate building the native executable as a Linux executable, and then create a coontainer image from it. This will also alleviate the need to [install GraalVM on our local machines](https://quarkus.io/guides/building-native-image#graalvm).
@@ -636,5 +789,4 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
 
 7. Return to your browser to http://localhost:8080
 8. Everything should work as before! No hassle native image generation!
-9. Close both the application and the PostgreSQL instances via `CTRL-C` when you're done. 
-
+9. Close both the application and the PostgreSQL instances via `CTRL-C` when you're done.
