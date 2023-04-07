@@ -26,7 +26,7 @@ The completed solution to this exercise can be found in this repo's `solution` b
 - [Red Hat Migration Toolkit for Applications](https://developers.redhat.com/products/mta/overview)
 
 # Prerequisites
-- A Java 11 runtime
+- A Java 17 runtime
 - A container runtime (i.e. [Docker](https://www.docker.com/) or [Podman](https://podman.io/))
    - `docker` commands are used throughout this example
 - Access to the internet
@@ -52,7 +52,7 @@ The completed solution to this exercise can be found in this repo's `solution` b
     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
      '  |____| .__|_| |_|_| |_\__, | / / / /
     =========|_|==============|___/=/_/_/_/
-    :: Spring Boot ::                (v2.7.5)
+    :: Spring Boot ::                (v3.0.5)
    
    INFO 33595 --- [  restartedMain] com.acme.todo.TodoApplication            : Started TodoApplication in 5.073 seconds (JVM running for 5.544)
    ```
@@ -151,7 +151,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 
 1. In your editor/IDE, open [`pom.xml`](pom.xml)
 2. Find the `<parent>` section and remove it
-3. In the `<properties>` section, add `<quarkus.platform.version>2.14.1.Final</quarkus.platform.version>`
+3. In the `<properties>` section, add `<quarkus.platform.version>3.0.0.CR2</quarkus.platform.version>`
 4. After the `<properties>` section but before the `<dependencies>` section, add the following block:
    ```xml
    <dependencyManagement>
@@ -221,8 +221,8 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    ```xml
    <dependency>
      <groupId>org.springdoc</groupId>
-     <artifactId>springdoc-openapi-ui</artifactId>
-     <version>1.6.12</version>
+     <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+     <version>2.1.0</version>
    </dependency>
    ```
 
@@ -427,7 +427,7 @@ A Spring Boot application also contains a "main" class with the `@SpringBootAppl
    <dependency>
      <groupId>org.springframework.boot</groupId>
      <artifactId>spring-boot-autoconfigure</artifactId>
-     <version>2.7.5</version>
+     <version>3.0.5</version>
      <optional>true</optional>
    </dependency>
    ```
@@ -448,13 +448,13 @@ Some issues that weren't caught by the tool but also need to be fixed:
     </dependency>
     ```
    
-    and add `<version>3.23.1.0</version>`. The resulting dependency should be
+    and add `<version>3.24.2</version>`. The resulting dependency should be
 
     ```xml
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.23.1.0</version>
+      <version>3.24.2</version>
       <scope>test</scope>
     </dependency>
     ```
@@ -586,8 +586,8 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
       FROM quay.io/quarkus/quarkus-micro-image:2.0
       WORKDIR /work/
       RUN chown 1001 /work \
-          && chmod "g+rwX" /work \
-          && chown 1001:root /work
+        && chmod "g+rwX" /work \
+        && chown 1001:root /work
       COPY --chown=1001:root target/*-runner /work/application
       
       EXPOSE 8080
