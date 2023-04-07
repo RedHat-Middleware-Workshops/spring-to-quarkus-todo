@@ -219,7 +219,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    </dependency>
    ```
 
-7. The next issue is `Spring component springdoc-openapi-ui requires investigation`. [SpringDoc OpenAPI](https://springdoc.org/) is a 3rd party open source library that isn't part of Spring itself. Luckily, there is the [Quarkus OpenAPI extension](https://quarkus.io/guides/openapi-swaggerui).
+7. The next issue is `Spring component springdoc-openapi-starter-webmvc-ui requires investigation`. [SpringDoc OpenAPI](https://springdoc.org/) is a 3rd party open source library that isn't part of Spring itself. Luckily, there is the [Quarkus OpenAPI extension](https://quarkus.io/guides/openapi-swaggerui).
 
    In `pom.xml`, find
    ```xml
@@ -636,4 +636,5 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
 
 7. Return to your browser to http://localhost:8080
 8. Everything should work as before! No hassle native image generation!
-9. Close both the application and the PostgreSQL instances via `CTRL-C` when you're done.
+9. Close both the application and the PostgreSQL instances via `CTRL-C` when you're done. 
+
