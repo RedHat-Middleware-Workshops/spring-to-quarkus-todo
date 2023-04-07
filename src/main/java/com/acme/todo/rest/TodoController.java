@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.transaction.Transactional;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.acme.todo.domain.TodoEntity;
@@ -38,6 +40,7 @@ public class TodoController {
 
     @PutMapping
     @Transactional
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody TodoEntity resource) {
         this.todoRepository.save(resource);
     }
@@ -50,6 +53,7 @@ public class TodoController {
  
     @DeleteMapping("/{id}")
     @Transactional
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
         this.todoRepository.deleteById(id);
     }
