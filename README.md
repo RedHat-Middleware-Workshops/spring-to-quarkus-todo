@@ -13,6 +13,7 @@ This is the solution branch containing the outcome after following the below tut
 - [Correct Issues](#correct-issues)
 - [Re-analyze the application](#re-analyze-the-application)
 - [Migrate Data source properties](#migrate-data-source-properties)
+- [Fix the tests](#fix-the-tests)
 - [Bonus: No hassle native image](#bonus-no-hassle-native-image)
 
 # Background
@@ -662,66 +663,68 @@ There are a couple of other properties that the analysis didn't find.
 
 3. Navigate to http://localhost:8080/q/dev (or in your terminal where Dev Mode is running, press `d`) to view the [Quarkus Dev UI](https://quarkus.io/guides/dev-ui), a landing page for interacting with your application. All extensions used by the application should show up here along with links to their documentation. Some extensions provide the ability to interact and modify configuration right from the UI.
 
-4. Now let's fix the tests so that they run.
-    1. In your terminal where Quarkus dev mode is running, press the `r` key to enable [Quarkus Continuous Testing](https://quarkus.io/guides/continuous-testing). You should see the console display `No tests found`.
-    2. [Quarkus Dev Services for Databases](https://quarkus.io/guides/databases-dev-services) automatically provisions a database container for the running application AND while executing tests. Therefore, we do not need the [`src/test/resources/application.properties`](src/test/resources/application.properties) file. Delete [`src/test/resources/application.properties`](src/test/resources/application.properties).
-    3. Open [`src/test/java/com/acme/todo/rest/TodoControllerTests.java`](src/test/java/com/acme/todo/rest/TodoControllerTests.java).
-       > You might find as you move through the following steps that your terminal window starts going crazy with lots of errors. [Quarkus Continuous Testing](https://quarkus.io/guides/continuous-testing) is continually recompiling and re-executing the tests in the background and reporting back to the console. Once you complete the following steps you should get green text at the bottom saying that all tests pass.
+# Fix the tests
+Now let's fix the tests so that they run.
 
-        1. Remove the `@SpringBootTest` and `@AutoConfigureMockMvc` annotations on the class.
-        2. Add the `@QuarkusTest` annotation to the class. 
-        3. Find
+1. In your terminal where Quarkus dev mode is running, press the `r` key to enable [Quarkus Continuous Testing](https://quarkus.io/guides/continuous-testing). You should see the console display `No tests found`.
+2. [Quarkus Dev Services for Databases](https://quarkus.io/guides/databases-dev-services) automatically provisions a database container for the running application AND while executing tests. Therefore, we do not need the [`src/test/resources/application.properties`](src/test/resources/application.properties) file. Delete [`src/test/resources/application.properties`](src/test/resources/application.properties).
+3. Open [`src/test/java/com/acme/todo/rest/TodoControllerTests.java`](src/test/java/com/acme/todo/rest/TodoControllerTests.java).
+   > You might find as you move through the following steps that your terminal window starts going crazy with lots of errors. [Quarkus Continuous Testing](https://quarkus.io/guides/continuous-testing) is continually recompiling and re-executing the tests in the background and reporting back to the console. Once you complete the following steps you should get green text at the bottom saying that all tests pass.
+
+    1. Remove the `@SpringBootTest` and `@AutoConfigureMockMvc` annotations on the class.
+    2. Add the `@QuarkusTest` annotation to the class. 
+    3. Find
         
-            ```java
-            @Autowired
-            MockMvc mockMvc;
-            ```
+        ```java
+        @Autowired
+        MockMvc mockMvc;
+        ```
            
-            and remove it.
-        4. Find 
+        and remove it.
+    4. Find 
     
-            ```java
-            @MockBean
-            TodoRepository todoRepository;
-            ```
+        ```java
+        @MockBean
+        TodoRepository todoRepository;
+        ```
            
-            and change it to
-        
-            ```java
-            @InjectMock
-            TodoRepository todoRepository;
-            ```
+        and change it to
+     
+        ```java
+        @InjectMock
+        TodoRepository todoRepository;
+        ```
            
-        5. Find
+    5. Find
        
-            ```java
-            @BeforeEach
-            public void beforeEach() {
-              RestAssuredMockMvc.mockMvc(this.mockMvc);
-            }
-            ```
+        ```java
+        @BeforeEach
+        public void beforeEach() {
+          RestAssuredMockMvc.mockMvc(this.mockMvc);
+        }
+        ```
            
-            and remove it.
+        and remove it.
     
-        6. Find
+    6. Find
        
-            ```java
-            import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
-            ```
+        ```java
+        import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
+        ```
            
-            and replace it with
+        and replace it with
    
-            ```java
-            import static io.restassured.RestAssured.*;
-            ```
+        ```java
+        import static io.restassured.RestAssured.*;
+        ```
        
-        7. You may need to optimize your imports depending on your IDE. You can inspect the imports on the [`solution` branch](https://github.com/RedHat-Middleware-Workshops/spring-to-quarkus-todo/blob/solution/src/test/java/com/acme/todo/rest/TodoControllerTests.java) to see what you need if you run into a problem.  
+    7. You may need to optimize your imports depending on your IDE. You can inspect the imports on the [`solution` branch](https://github.com/RedHat-Middleware-Workshops/spring-to-quarkus-todo/blob/solution/src/test/java/com/acme/todo/rest/TodoControllerTests.java) to see what you need if you run into a problem.  
 
-        8. In the terminal you should now see `All 5 tests are passing (0 skipped), 5 tests were run in 396ms. Tests completed at 14:40:08 due to changes to TodoControllerTests.class.` indicating that all the tests are now passing.
+    8. In the terminal you should now see `All 5 tests are passing (0 skipped), 5 tests were run in 396ms. Tests completed at 14:40:08 due to changes to TodoControllerTests.class.` indicating that all the tests are now passing.
         
-           > If you modify any tests, or any of the source code, the tests should automatically re-run, giving you an instant feedback loop.
+       > If you modify any tests, or any of the source code, the tests should automatically re-run, giving you an instant feedback loop.
 
-5. Hit `CTRL-C` (or press `q`) in your terminal once done.
+4. Hit `CTRL-C` (or press `q`) in your terminal once done.
 
 # Bonus: No hassle native image
 As a bonus exercise, let's create and run a Quarkus native image. Writing this exercise we don't know what host OS each individual is using, so we will use container images to facilitate building the native executable as a Linux executable, and then create a coontainer image from it. This will also alleviate the need to [install GraalVM on our local machines](https://quarkus.io/guides/building-native-image#graalvm).
@@ -789,4 +792,4 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
 
 7. Return to your browser to http://localhost:8080
 8. Everything should work as before! No hassle native image generation!
-9. Close both the application and the PostgreSQL instances via `CTRL-C` when you're done.
+9. Close both the application and the PostgreSQL instances via `CTRL-C` when you're done. 
