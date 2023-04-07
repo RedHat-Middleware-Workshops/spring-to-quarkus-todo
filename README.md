@@ -215,7 +215,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    </dependency>
    ```
 
-7. The next issue is `Spring component springdoc-openapi-ui requires investigation`. [SpringDoc OpenAPI](https://springdoc.org/) is a 3rd party open source library that isn't part of Spring itself. Luckily, there is the [Quarkus OpenAPI extension](https://quarkus.io/guides/openapi-swaggerui).
+7. The next issue is `Spring component springdoc-openapi-starter-webmvc-ui requires investigation`. [SpringDoc OpenAPI](https://springdoc.org/) is a 3rd party open source library that isn't part of Spring itself. Luckily, there is the [Quarkus OpenAPI extension](https://quarkus.io/guides/openapi-swaggerui).
 
    In `pom.xml`, find
    ```xml
