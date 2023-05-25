@@ -58,7 +58,7 @@ The completed solution to this exercise can be found in this repo's `solution` b
     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
      '  |____| .__|_| |_|_| |_\__, | / / / /
     =========|_|==============|___/=/_/_/_/
-    :: Spring Boot ::                (v3.0.6)
+    :: Spring Boot ::                (v3.1.0)
    
    INFO 33595 --- [  restartedMain] com.acme.todo.TodoApplication            : Started TodoApplication in 5.073 seconds (JVM running for 5.544)
    ```
@@ -133,9 +133,9 @@ For this exercise we have [pre-built a container image](https://quay.io/reposito
    Report created: /opt/project/windup-report/index.html
               Access it at this URL: file:///opt/project/windup-report/index.html
    ```
-3. In your browser, open up the newly-created `windup-report/index.html` page within the project. You should see the **Application List** page:
+3. In your browser, open up the newly-created `windup-report/index.html` page within the project. You should see the **Applications** page:
 
-   ![Application List](images/mta-app-list.png)
+   ![Applications](images/mta-app-list.png)
 
 4. Click on **project** to move to the **Dashboard** page:
 
@@ -150,11 +150,17 @@ The analysis produced by the Migration Toolkit for Applications contains many li
 # Correct Issues
 Each issue is something that needs to be dealt with to convert the application from Spring to Quarkus. The majority of the issues presented are related to dependencies within the [`pom.xml`](pom.xml). Let's fix all of those issues first.
 
-1. In the **Migration Mandatory** section, find and click on the `Replace the Spring Parent POM with Quarkus BOM` issue. This will expand and explain the issue detail:
+1. In the **Category** dropdown, select **Mandatory** to filter the issues by mandatory.
+   
+   ![Mandatory Issues](images/mta-issues-mandatory.png)
+
+2. Next, find and expand the `Replace the Spring Parent POM with Quarkus BOM` issue. This will expand and explain the issue detail:
 
    ![Spring POM to Quarkus BOM](images/spring-pom-to-quarkus-bom-desc.png)
 
-2. Clicking on `pom.xml` will bring up a page describing all the necessary changes needed to the project's `pom.xml`.
+3. Clicking on `pom.xml` will bring up a window describing all the necessary changes needed to the project's `pom.xml`. The window will have a small icon in the gutter on the left-hand side as well as some squiggly lines where issues are found. You can hover your mouse over each of these lines for a detailed description of the issue and how to remediate it.
+
+   ![Issue hovers](images/spring-pom-to-quarkus-bom-issues.png)
 
 ## `pom.xml`
 The first issue is replacing the Spring parent POM with the Quarkus BOM.
@@ -165,7 +171,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 
 1. In your editor/IDE, open [`pom.xml`](pom.xml)
 2. Find the `<parent>` section and remove it
-3. In the `<properties>` section, add `<quarkus.platform.version>3.0.1.Final</quarkus.platform.version>`
+3. In the `<properties>` section, add `<quarkus.platform.version>3.0.4.Final</quarkus.platform.version>`
 4. After the `<properties>` section but before the `<dependencies>` section, add the following block:
    ```xml
    <dependencyManagement>
@@ -453,7 +459,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
     > **NOTE:** While this replacement might seem like a lot of XML, it also sets up the application to [build a native image](https://quarkus.io/guides/building-native-image) using the `native` Maven profile.
 
 ### `@SpringBootApplication` class
-Navigate back to the main issues page and find the `Remove the SpringBoot @SpringBootApplication annotation` issue, then click on it.
+Navigate back to the main issues page and find the `Remove the SpringBoot @SpringBootApplication annotation` issue, then expand it.
 
 ![Remove SpringBootApplication annotation](images/mta-remove-springbootapplication.png)
 
@@ -469,7 +475,7 @@ A Spring Boot application also contains a "main" class with the `@SpringBootAppl
    <dependency>
      <groupId>org.springframework.boot</groupId>
      <artifactId>spring-boot-autoconfigure</artifactId>
-     <version>3.0.6</version>
+     <version>3.1.0</version>
      <optional>true</optional>
    </dependency>
    ```
@@ -581,7 +587,8 @@ Now let's re-analyze the application to see how much of the migration has been c
               Access it at this URL: file:///opt/project/windup-report/index.html
    ```
 
-3. Clicking back to the **Issues** tab should only show a few categories of issues. The remainder of the issues are fixed with configuration in the [`application.properties`](src/main/resources/application.properties) file.
+3. Refresh the browser and return to the **Issues** tab as you did before. There should only be a few issues remaining. The remainder of the issues are fixed with configuration in the [`application.properties`](src/main/resources/application.properties) file.
+
    ![Issues after pom.xml fixes](images/mta-issues-after-pom-fixes.png)
 
 4. Before proceeding, let's start the newly-converted Quarkus application in [Quarkus's Dev Mode](https://quarkus.io/guides/maven-tooling#dev-mode).
@@ -597,7 +604,7 @@ Now let's re-analyze the application to see how much of the migration has been c
     -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
    --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
 
-   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 3.0.1.Final) started in 4.016s. Listening on: http://localhost:8080
+   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 3.0.4.Final) started in 4.016s. Listening on: http://localhost:8080
    INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
    INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, jdbc-postgresql, micrometer, narayana-jta, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui, vertx]
 
@@ -611,7 +618,7 @@ Now let's re-analyze the application to see how much of the migration has been c
 # Migrate Data source properties
 The other issues relate to properties within `src/main/resources/application.properties`.
 
-1. In your browser tab containing the Migration Toolkit analysis, go back to the **Issues** page and choose the `Replace Spring datasource property key/value pairs with Quarkus properties` issue and then click on the `src/main/resources/application.properties` link.
+1. In your browser tab containing the Migration Toolkit analysis, go back to the **Issues** tab, expand the `Replace Spring datasource property key/value pairs with Quarkus properties` issue and then click on the `src/main/resources/application.properties` link. You will see a similar editor as you did previously when you opened the `pom.xml` file.
    ![Replace Spring datasource property key/value pairs with Quarkus properties](images/spring-datasource-properties-desc.png)
 
 2. In your editor/IDE, open [`src/main/resources/application.properties`](src/main/resources/application.properties)
@@ -793,4 +800,3 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
 7. Return to your browser to http://localhost:8080
 8. Everything should work as before! No hassle native image generation!
 9. Close both the application and the PostgreSQL instances via `CTRL-C` when you're done. 
-
