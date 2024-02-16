@@ -12,7 +12,7 @@
     <java.version>17</java.version>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
-    <quarkus.platform.version>3.2.1.Final</quarkus.platform.version>
+    <quarkus.platform.version>3.7.3</quarkus.platform.version>
     <surefire-plugin.version>3.2.5</surefire-plugin.version>
   </properties>
   <dependencyManagement>
@@ -62,7 +62,7 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>
-      <version>3.1.2</version>
+      <version>3.2.2</version>
       <optional>true</optional>
     </dependency>
     <dependency>

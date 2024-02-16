@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.data.domain.Sort;
 
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.junit.mockito.InjectMock;
 
 import com.acme.todo.domain.TodoEntity;
 import com.acme.todo.repository.TodoRepository;
