@@ -792,8 +792,10 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
    ```shell
    docker run -i --rm -p 8080:8080 -e QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://172.17.0.2:5432/tododb -e QUARKUS_DATASOURCE_USERNAME=todo -e QUARKUS_DATASOURCE_PASSWORD=todo spring-to-quarkus-todo:0.0.1-SNAPSHOT
    ```
+> [!TIP]
 > If this command didn't work, make sure you substituted the ip address you gathered in **step 5** in the command!
 
+> [!IMPORTANT]
 > Notice the startup time. It should start up in only a few milliseconds!
 
 7. Return to your browser to http://localhost:8080
