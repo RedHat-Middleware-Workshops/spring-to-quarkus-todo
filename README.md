@@ -39,8 +39,8 @@ The completed solution to this exercise can be found in this repo's `solution` b
    docker run -it --rm --name tododb -e POSTGRES_USER=todo -e POSTGRES_PASSWORD=todo -e POSTGRES_DB=tododb -p 5432:5432 postgres:14
    ```
 
-    > [!NOTE]
-    > If you see an error related to rate limits (something like `You have reached your pull rate limit`), you need to first do a `docker login -u <YOUR_DOCKER_USERNAME>` in order to pull the image. If you don't have a username, you can [create a free account](https://hub.docker.com/signup).
+> [!NOTE]
+> If you see an error related to rate limits (something like `You have reached your pull rate limit`), you need to first do a `docker login -u <YOUR_DOCKER_USERNAME>` in order to pull the image. If you don't have a username, you can [create a free account](https://hub.docker.com/signup).
 
 2. Run the application:
    ```shell
@@ -90,8 +90,8 @@ Run the command `./mvnw clean verify` to run the tests. You should notice that d
    - Open [`src/main/java/com/acme/todo/repository/TodoRepository.java`](src/main/java/com/acme/todo/repository/TodoRepository.java) to find the [Spring Data JPA Repository](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories), exposing all of the create, read, update, and delete operations for the `TodoEntity`.
 - [Spring Boot Actuators](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html) for providing operational capabilities, including health checks and metrics gathering.
 - [SpringDoc OpenAPI 3](https://springdoc.org/v2) for generating and exposing RESTful API information as well as the embedded Swagger UI endpoint.
-  > [!NOTE]
-  > Spring Boot on its own does not have a starter providing this capability.
+> [!NOTE]
+> Spring Boot on its own does not have a starter providing this capability.
 - [Prometheus Micrometer Registry](https://micrometer.io/docs/registry/prometheus) for exposing metrics to Prometheus.
 - Testing
     - Open [`src/test/java/com/acme/todo/test/TodoControllerTests.java`](src/test/java/com/acme/todo/rest/TodoControllerTests.java) to find the [rest-assured](https://rest-assured.io/) tests for the controller layer.
@@ -116,8 +116,8 @@ For this exercise we have [pre-built a container image](https://quay.io/reposito
 
 1. On the terminal from the project directory, run one of the following commands based on the operating system you are running:
    - **\*nix/macos/Windows Subsystem for Linux (WSL):** `docker run -it -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
-     > [!TIP]
-     > If using [podman](http://podman.io/), you could use the command `podman run -it -v $(pwd):/opt/project:z,U quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
+> [!TIP]
+> If using [podman](http://podman.io/), you could use the command `podman run -it -v $(pwd):/opt/project:z,U quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
 
    - **Windows**:
       - **cmd (not PowerShell):** `docker run -it -v %cd%:/opt/project quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
@@ -203,8 +203,8 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    
    Additionally, the documentation on the issue mentions that [Starting with Quarkus version 2.5, the underlying JAX-RS engine must be chosen](https://github.com/quarkusio/quarkus/wiki/Migration-Guide-2.5#spring-web). The RESTEasy Reactive extension has better performance than the RESTEasy Classic extension, so we will use that.
 
-   > [!TIP]
-   > Selecting the RESTEasy Reactive extension does not mean we are (or have to) build a reactive application. It only affects the underlying engine. See [RESTEasy Reactive - To block or not to block](https://quarkus.io/blog/resteasy-reactive-smart-dispatch/), [Massive performance without headaches](https://quarkus.io/blog/resteasy-reactive-faq/), and [A UI thread and a worker thread walk into a bar: a microbenchmark story](https://quarkus.io/blog/io-thread-benchmark/) for more information.
+> [!TIP]
+> Selecting the RESTEasy Reactive extension does not mean we are (or have to) build a reactive application. It only affects the underlying engine. See [RESTEasy Reactive - To block or not to block](https://quarkus.io/blog/resteasy-reactive-smart-dispatch/), [Massive performance without headaches](https://quarkus.io/blog/resteasy-reactive-faq/), and [A UI thread and a worker thread walk into a bar: a microbenchmark story](https://quarkus.io/blog/io-thread-benchmark/) for more information.
 
    In `pom.xml`, add the `quarkus-resteasy-reactive-jackson` extension to the `<dependencies>` section:
    ```xml
@@ -453,8 +453,8 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
     </profiles>
     ```
 
-    > [!NOTE]
-    > While this replacement might seem like a lot of XML, it also sets up the application to [build a native image](https://quarkus.io/guides/building-native-image) using the `native` Maven profile.
+> [!NOTE]
+> While this replacement might seem like a lot of XML, it also sets up the application to [build a native image](https://quarkus.io/guides/building-native-image) using the `native` Maven profile.
 
 ### `@SpringBootApplication` class
 Navigate back to the main issues page and find the `Remove the SpringBoot @SpringBootApplication annotation` issue, then expand it.
@@ -478,8 +478,8 @@ A Spring Boot application also contains a "main" class with the `@SpringBootAppl
    </dependency>
    ```
 
-   > [!TIP]
-   > This is the option chosen in the `solution` branch of this repository. This option was chosen purely because we did not want to have to change any source code within the project. In a more "real world" scenario, the better option would most likely be option 1.
+> [!TIP]
+> This is the option chosen in the `solution` branch of this repository. This option was chosen purely because we did not want to have to change any source code within the project. In a more "real world" scenario, the better option would most likely be option 1.
 
 ---
 
@@ -565,8 +565,8 @@ Now let's re-analyze the application to see how much of the migration has been c
 
 1. On the terminal from the project directory, run one of the following commands based on the operating system you are running:
    - **\*nix/macos/Windows Subsystem for Linux (WSL):** `docker run -it -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
-     > [!TIP]
-     > If using [podman](http://podman.io/), you could use the command `podman run -it -v $(pwd):/opt/project:z,U quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
+> [!TIP]
+> If using [podman](http://podman.io/), you could use the command `podman run -it -v $(pwd):/opt/project:z,U quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
 
    - **Windows**:
       - **cmd (not PowerShell):** `docker run -it -v %cd%:/opt/project quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
@@ -697,8 +697,8 @@ Now let's fix the tests so that they run.
         TodoRepository todoRepository;
         ```
        
-        > [!IMPORTANT]
-        > Make sure to import `io.quarkus.test.InjectMock` and not `io.quarkus.test.junit.mockito`!
+> [!IMPORTANT]
+> Make sure to import `io.quarkus.test.InjectMock` and not `io.quarkus.test.junit.mockito`!
            
     5. Find
        
@@ -767,10 +767,10 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
 3. Building a native image can be accomplished by running `./mvnw package -Pnative -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Dquarkus.container-image.group=` in the terminal. Building a native image may take several minutes to complete depending on the specs of your machine and how much CPU/RAM is available.
    > There are many [container image options](https://quarkus.io/guides/container-image#container-image-options) available. The `quarkus.container-image.group=` option removes the `${user.name}` from the final image name. If we did not include this option, the final image would be created as `${user.name}/${quarkus.application.name}:${quarkus.application.version}`. This simply makes it easier to write this tutorial without having to worry about people's usernames!
 
-   > [!NOTE]
-   > If the native image build fails due to an out of memory error, you may need to increase the memory size of your docker daemon to a minimum of 6GB.
-   >
-   > You could also try adding the parameter `-Dquarkus.native.additional-build-args=-J-XX:TieredStopAtLevel=1` to the `./mvnw package` command you ran.
+> [!NOTE]
+> If the native image build fails due to an out of memory error, you may need to increase the memory size of your docker daemon to a minimum of 6GB.
+>
+> You could also try adding the parameter `-Dquarkus.native.additional-build-args=-J-XX:TieredStopAtLevel=1` to the `./mvnw package` command you ran.
 
 4. Once the native image build is complete, start the PostgreSQL database container needed by the application:
    ```shell
