@@ -64,7 +64,7 @@ class TodoControllerTests {
 		when(this.todoRepository.findById(eq(TODO.getId())))
 			.thenReturn(Optional.of(TODO));
 
-		var foundTodo = get("/todo/{id}", TODO.getId()).then()
+		var foundTodo = get("/todo/{id}", String.valueOf(TODO.getId())).then()
 			.statusCode(200)
 			.contentType(ContentType.JSON)
 			.extract().as(TodoEntity.class);
@@ -121,7 +121,7 @@ class TodoControllerTests {
 			.when(this.todoRepository)
 			.deleteById(eq(TODO.getId()));
 
-		given().delete("/todo/{id}", TODO.getId()).then()
+		given().delete("/todo/{id}", String.valueOf(TODO.getId())).then()
 			.statusCode(204);
 
 		verify(this.todoRepository).deleteById(eq(TODO.getId()));

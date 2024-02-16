@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.2</version>
+		<version>3.2.2</version>
 		<relativePath/>
 	</parent>
 	<groupId>io.quarkus</groupId>
@@ -16,15 +16,15 @@
 		<java.version>17</java.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<compiler-plugin.version>3.11.0</compiler-plugin.version>
-		<surefire-plugin.version>3.0.0</surefire-plugin.version>
+		<compiler-plugin.version>3.12.1</compiler-plugin.version>
+		<surefire-plugin.version>3.2.5</surefire-plugin.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.testcontainers</groupId>
 				<artifactId>testcontainers-bom</artifactId>
-				<version>1.19.1</version>
+				<version>1.19.5</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -79,7 +79,7 @@
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>spring-mock-mvc</artifactId>
-			<version>5.3.1</version>
+			<version>5.4.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

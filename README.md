@@ -39,7 +39,8 @@ The completed solution to this exercise can be found in this repo's `solution` b
    docker run -it --rm --name tododb -e POSTGRES_USER=todo -e POSTGRES_PASSWORD=todo -e POSTGRES_DB=tododb -p 5432:5432 postgres:14
    ```
 
-   > **NOTE:** If you see an error related to rate limits (something like `You have reached your pull rate limit`), you need to first do a `docker login -u <YOUR_DOCKER_USERNAME>` in order to pull the image. If you don't have a username, you can [create a free account](https://hub.docker.com/signup).
+   > [!NOTE]
+   > If you see an error related to rate limits (something like `You have reached your pull rate limit`), you need to first do a `docker login -u <YOUR_DOCKER_USERNAME>` in order to pull the image. If you don't have a username, you can [create a free account](https://hub.docker.com/signup).
 
 2. Run the application:
    ```shell
@@ -54,9 +55,9 @@ The completed solution to this exercise can be found in this repo's `solution` b
     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
      '  |____| .__|_| |_|_| |_\__, | / / / /
     =========|_|==============|___/=/_/_/_/
-    :: Spring Boot ::                (v3.1.2)
+    :: Spring Boot ::                (v3.2.2)
    
-   INFO 33595 --- [  restartedMain] com.acme.todo.TodoApplication            : Started TodoApplication in 5.073 seconds (JVM running for 5.544)
+   INFO 10411 --- [  restartedMain] com.acme.todo.TodoApplication            : Started TodoApplication in 2.249 seconds (process running for 2.437)
    ```
 3. Open your browser to http://localhost:8080. You should see
 
@@ -89,7 +90,8 @@ Run the command `./mvnw clean verify` to run the tests. You should notice that d
    - Open [`src/main/java/com/acme/todo/repository/TodoRepository.java`](src/main/java/com/acme/todo/repository/TodoRepository.java) to find the [Spring Data JPA Repository](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories), exposing all of the create, read, update, and delete operations for the `TodoEntity`.
 - [Spring Boot Actuators](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html) for providing operational capabilities, including health checks and metrics gathering.
 - [SpringDoc OpenAPI 3](https://springdoc.org/v2) for generating and exposing RESTful API information as well as the embedded Swagger UI endpoint.
-  > **NOTE:** Spring Boot on its own does not have a starter providing this capability.
+  > [!NOTE]
+  > Spring Boot on its own does not have a starter providing this capability.
 - [Prometheus Micrometer Registry](https://micrometer.io/docs/registry/prometheus) for exposing metrics to Prometheus.
 - Testing
     - Open [`src/test/java/com/acme/todo/test/TodoControllerTests.java`](src/test/java/com/acme/todo/rest/TodoControllerTests.java) to find the [rest-assured](https://rest-assured.io/) tests for the controller layer.
@@ -108,12 +110,14 @@ We are going to use the [Red Hat Migration Toolkit for Runtimes (MTR)](https://d
     - [IntelliJ IDEA](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/intellij_idea_plugin_guide/index)
     - [Visual Studio Code](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/visual_studio_code_extension_guide/index)
 
-For this exercise we have [pre-built a container image](https://quay.io/repository/rhappsvcs/spring-to-quarkus-mta-cli) that runs the [command line interface](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/cli_guide/index). This approach was chosen to make it easier to run without having to install anything on a local machine.
-> **NOTE:** The [`spring-to-quarkus-mta-cli` repository](https://github.com/RedHat-Middleware-Workshops/spring-to-quarkus-mta-cli) contains the tooling to create the container image being used.
+For this exercise we have [pre-built a container image](https://quay.io/repository/rhappsvcs/spring-to-quarkus-mta-cli) that runs the [command line interface](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.2/html/cli_guide/index). This approach was chosen to make it easier to run without having to install anything on a local machine.
+> [!NOTE]
+> The [`spring-to-quarkus-mta-cli` repository](https://github.com/RedHat-Middleware-Workshops/spring-to-quarkus-mta-cli) contains the tooling to create the container image being used.
 
 1. On the terminal from the project directory, run one of the following commands based on the operating system you are running:
    - **\*nix/macos/Windows Subsystem for Linux (WSL):** `docker run -it -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
-     > **NOTE:** If using [podman](http://podman.io/), you could use the command `podman run -it -v $(pwd):/opt/project:z,U quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
+     > [!TIP]
+     > If using [podman](http://podman.io/), you could use the command `podman run -it -v $(pwd):/opt/project:z,U quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
 
    - **Windows**:
       - **cmd (not PowerShell):** `docker run -it -v %cd%:/opt/project quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
@@ -167,20 +171,16 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 
 1. In your editor/IDE, open [`pom.xml`](pom.xml)
 2. Find the `<parent>` section and remove it
-3. In the `<properties>` section, add `<quarkus.platform.version>3.2.1.Final</quarkus.platform.version>`
-4. After the `<properties>` section but before the `<dependencies>` section, add the following block:
+3. In the `<properties>` section, add `<quarkus.platform.version>3.7.3</quarkus.platform.version>`
+4. After the `<properties>` section find the `<dependencyManagement>` section and add the following inside the `<dependencies>`:
    ```xml
-   <dependencyManagement>
-     <dependencies>
-       <dependency> 
-         <groupId>io.quarkus.platform</groupId>
-         <artifactId>quarkus-bom</artifactId>
-         <version>${quarkus.platform.version}</version>
-         <type>pom</type>
-         <scope>import</scope>
-       </dependency>
-     </dependencies>
-   </dependencyManagement>
+   <dependency> 
+     <groupId>io.quarkus.platform</groupId>
+     <artifactId>quarkus-bom</artifactId>
+     <version>${quarkus.platform.version}</version>
+     <type>pom</type>
+     <scope>import</scope>
+   </dependency>
    ```
 
 5. The next issue is `Replace the Spring Web artifact with Quarkus 'spring-web' extension`.
@@ -203,7 +203,8 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    
    Additionally, the documentation on the issue mentions that [Starting with Quarkus version 2.5, the underlying JAX-RS engine must be chosen](https://github.com/quarkusio/quarkus/wiki/Migration-Guide-2.5#spring-web). The RESTEasy Reactive extension has better performance than the RESTEasy Classic extension, so we will use that.
 
-   > **NOTE:** Selecting the RESTEasy Reactive extension does not mean we are (or have to) build a reactive application. It only affects the underlying engine. See [RESTEasy Reactive - To block or not to block](https://quarkus.io/blog/resteasy-reactive-smart-dispatch/), [Massive performance without headaches](https://quarkus.io/blog/resteasy-reactive-faq/), and [A UI thread and a worker thread walk into a bar: a microbenchmark story](https://quarkus.io/blog/io-thread-benchmark/) for more information.
+   > [!TIP]
+   > Selecting the RESTEasy Reactive extension does not mean we are (or have to) build a reactive application. It only affects the underlying engine. See [RESTEasy Reactive - To block or not to block](https://quarkus.io/blog/resteasy-reactive-smart-dispatch/), [Massive performance without headaches](https://quarkus.io/blog/resteasy-reactive-faq/), and [A UI thread and a worker thread walk into a bar: a microbenchmark story](https://quarkus.io/blog/io-thread-benchmark/) for more information.
 
    In `pom.xml`, add the `quarkus-resteasy-reactive-jackson` extension to the `<dependencies>` section:
    ```xml
@@ -256,7 +257,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    <dependency>
      <groupId>org.springdoc</groupId>
      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-     <version>2.1.0</version>
+     <version>2.3.0</version>
    </dependency>
    ```
 
@@ -452,7 +453,8 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
     </profiles>
     ```
 
-    > **NOTE:** While this replacement might seem like a lot of XML, it also sets up the application to [build a native image](https://quarkus.io/guides/building-native-image) using the `native` Maven profile.
+    > [!NOTE]
+    > While this replacement might seem like a lot of XML, it also sets up the application to [build a native image](https://quarkus.io/guides/building-native-image) using the `native` Maven profile.
 
 ### `@SpringBootApplication` class
 Navigate back to the main issues page and find the `Remove the SpringBoot @SpringBootApplication annotation` issue, then expand it.
@@ -471,12 +473,13 @@ A Spring Boot application also contains a "main" class with the `@SpringBootAppl
    <dependency>
      <groupId>org.springframework.boot</groupId>
      <artifactId>spring-boot-autoconfigure</artifactId>
-     <version>3.1.2</version>
+     <version>3.2.2</version>
      <optional>true</optional>
    </dependency>
    ```
 
-   > **NOTE:** This is the option chosen in the `solution` branch of this repository. This option was chosen purely because we did not want to have to change any source code within the project. In a more "real world" scenario, the better option would most likely be option 1.
+   > [!TIP]
+   > This is the option chosen in the `solution` branch of this repository. This option was chosen purely because we did not want to have to change any source code within the project. In a more "real world" scenario, the better option would most likely be option 1.
 
 ---
 
@@ -492,35 +495,31 @@ Some issues that weren't caught by the tool but also need to be fixed:
     </dependency>
     ```
    
-    and add `<version>3.24.2</version>` because the Quarkus BOM does not manage the version of the [AssertJ](https://assertj.github.io/doc/) dependency. The resulting dependency should be
+    and add `<version>3.25.3</version>` because the Quarkus BOM does not manage the version of the [AssertJ](https://assertj.github.io/doc/) dependency. The resulting dependency should be
 
     ```xml
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.24.2</version>
+      <version>3.25.3</version>
       <scope>test</scope>
     </dependency>
     ```
 
 2. Remove the [Testcontainers](https://www.testcontainers.org) dependencies.
 
-    In `pom.xml`, find
+    In `pom.xml`, find the following within the `<dependencyManagement>` section:
     ```xml
-   <dependencyManagement>
-      <dependencies>
-        <dependency>
-          <groupId>org.testcontainers</groupId>
-          <artifactId>testcontainers-bom</artifactId>
-          <version>1.18.0</version>
-          <type>pom</type>
-          <scope>import</scope>
-        </dependency>
-      </dependencies>
-    </dependencyManagement>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers-bom</artifactId>
+      <version>1.19.5</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
     ```
 
-    and remove it, then find
+    and remove it, then in the main `<dependencies>` section find
     ```xml
     <dependency>
       <groupId>org.testcontainers</groupId>
@@ -543,7 +542,7 @@ Some issues that weren't caught by the tool but also need to be fixed:
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>spring-mock-mvc</artifactId>
-      <version>5.3.0</version>
+      <version>5.4.0</version>
       <scope>test</scope>
     </dependency>
     ```
@@ -566,7 +565,8 @@ Now let's re-analyze the application to see how much of the migration has been c
 
 1. On the terminal from the project directory, run one of the following commands based on the operating system you are running:
    - **\*nix/macos/Windows Subsystem for Linux (WSL):** `docker run -it -v $(pwd):/opt/project:z -u $(id -u):$(id -g) quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
-     > **NOTE:** If using [podman](http://podman.io/), you could use the command `podman run -it -v $(pwd):/opt/project:z,U quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
+     > [!TIP]
+     > If using [podman](http://podman.io/), you could use the command `podman run -it -v $(pwd):/opt/project:z,U quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
 
    - **Windows**:
       - **cmd (not PowerShell):** `docker run -it -v %cd%:/opt/project quay.io/rhappsvcs/spring-to-quarkus-mta-cli:latest`
@@ -593,17 +593,16 @@ Now let's re-analyze the application to see how much of the migration has been c
 
 6. The Quarkus application should start up, and you should see the Quarkus banner:
    ```shell
-   INFO  [io.qua.dat.dep.dev.DevServicesDatasourceProcessor] (build-35) Dev Services for the default datasource (postgresql) started - container ID is a4906cdb0f94
-   INFO  [io.qua.hib.orm.dep.dev.HibernateOrmDevServicesProcessor] (build-75) Setting quarkus.hibernate-orm.database.generation=drop-and-create to initialize Dev Services managed database
+   INFO  [io.qua.dat.dep.dev.DevServicesDatasourceProcessor] (build-51) Dev Services for default datasource (postgresql) started - container ID is bf800e67365f
+   INFO  [io.qua.hib.orm.dep.dev.HibernateOrmDevServicesProcessor] (build-15) Setting quarkus.hibernate-orm.database.generation=drop-and-create to initialize Dev Services managed database
    __  ____  __  _____   ___  __ ____  ______ 
     --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
     -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
    --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
 
-   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 3.2.1.Final) started in 4.016s. Listening on: http://localhost:8080
+   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 3.7.3) started in 5.663s. Listening on: http://localhost:8080
    INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
-   INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, jdbc-postgresql, micrometer, narayana-jta, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui, vertx]
-
+   INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, hibernate-validator, jdbc-postgresql, micrometer, narayana-jta, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui, vertx]
    ```
 
    > Notice the line `Dev Services for the default datasource (postgresql) started`. [Quarkus Dev Services](https://quarkus.io/guides/dev-services) noticed the PostgreSQL extension on the classpath and started a PostgreSQL container image automatically, while also automatically setting all the configuration properties for the application to communicate with it!
@@ -697,6 +696,9 @@ Now let's fix the tests so that they run.
         @InjectMock
         TodoRepository todoRepository;
         ```
+       
+        > [!IMPORTANT]
+        > Make sure to import `io.quarkus.test.InjectMock` and not `io.quarkus.test.junit.mockito`!
            
     5. Find
        
@@ -734,7 +736,8 @@ As a bonus exercise, let's create and run a Quarkus native image. Writing this e
 
 The easiest way to create a container image containing a native executable is to leverage one of the [Quarkus container-image extensions](https://quarkus.io/guides/building-native-image#using-the-container-image-extensions). If one of those extensions is present, then creating a container image for the native executable is essentially a matter of executing a single command.
 
-> **NOTE:** Native image creation is a CPU and memory-intensive operation. It may or may not work depending on your hardware specs. You may need at lease 6 GB of RAM allocated to your Docker daemon.
+> [!NOTE]
+> Native image creation is a CPU and memory-intensive operation. It may or may not work depending on your hardware specs. You may need at lease 6 GB of RAM allocated to your Docker daemon.
 
 Since we already have a Docker runtime we'll use the [Docker container image extension](https://quarkus.io/guides/container-image#docker) to perform the container image build.
 
@@ -764,7 +767,8 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
 3. Building a native image can be accomplished by running `./mvnw package -Pnative -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Dquarkus.container-image.group=` in the terminal. Building a native image may take several minutes to complete depending on the specs of your machine and how much CPU/RAM is available.
    > There are many [container image options](https://quarkus.io/guides/container-image#container-image-options) available. The `quarkus.container-image.group=` option removes the `${user.name}` from the final image name. If we did not include this option, the final image would be created as `${user.name}/${quarkus.application.name}:${quarkus.application.version}`. This simply makes it easier to write this tutorial without having to worry about people's usernames!
 
-   > **NOTE:** If the native image build fails due to an out of memory error, you may need to increase the memory size of your docker daemon to a minimum of 6GB.
+   > [!NOTE]
+   > If the native image build fails due to an out of memory error, you may need to increase the memory size of your docker daemon to a minimum of 6GB.
    >
    > You could also try adding the parameter `-Dquarkus.native.additional-build-args=-J-XX:TieredStopAtLevel=1` to the `./mvnw package` command you ran.
 
