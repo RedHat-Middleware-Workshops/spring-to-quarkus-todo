@@ -101,14 +101,14 @@ Run the command `./mvnw clean verify` to run the tests. You should notice that d
 - Open [`src/main/resources/import.sql`](src/main/resources/import.sql) to find some SQL that will pre-populate the database table with an initial set of data.
 
 # Analyze the application for migration
-We are going to use the [Red Hat Migration Toolkit for Runtimes (MTR)](https://developers.redhat.com/products/mtr/overview) to analyze the application. MTR can be run in a number of different ways:
-- A [web application](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/web_console_guide/index) running locally or on some remote machine.
-- A [command line interface](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/cli_guide/index).
-- A [Maven plugin](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/maven_plugin_guide/index).
+We are going to use the [Red Hat Migration Toolkit for Applications (MTA)](https://developers.redhat.com/products/mta/overview) to analyze the application. MTA can be run in a number of different ways:
+- A [web application](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.2/html/web_console_guide/index) running locally or on some remote machine.
+- A [command line interface](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.2/html/cli_guide/index).
+- A [Maven plugin](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.2/html/maven_plugin_guide/index).
 - A plugin to most major IDEs
-    - [Eclipse and Red Hat CodeReady Studio](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/eclipse_and_red_hat_codeready_studio_guide/index)
-    - [IntelliJ IDEA](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/intellij_idea_plugin_guide/index)
-    - [Visual Studio Code](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/visual_studio_code_extension_guide/index)
+    - [Eclipse and Red Hat CodeReady Studio](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.2/html/eclipse_and_red_hat_codeready_studio_guide/index)
+    - [IntelliJ IDEA](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.2/html/intellij_idea_plugin_guide/index)
+    - [Visual Studio Code](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.2/html/visual_studio_code_extension_guide/index)
 
 For this exercise we have [pre-built a container image](https://quay.io/repository/rhappsvcs/spring-to-quarkus-mta-cli) that runs the [command line interface](https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.2/html/cli_guide/index). This approach was chosen to make it easier to run without having to install anything on a local machine.
 > [!NOTE]
