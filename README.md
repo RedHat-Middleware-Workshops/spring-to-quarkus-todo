@@ -697,8 +697,7 @@ Now let's fix the tests so that they run.
         TodoRepository todoRepository;
         ```
        
-> [!IMPORTANT]
-> Make sure to import `io.quarkus.test.InjectMock` and not `io.quarkus.test.junit.mockito`!
+        > Make sure to import `io.quarkus.test.InjectMock` and not `io.quarkus.test.junit.mockito`!
            
     5. Find
        
