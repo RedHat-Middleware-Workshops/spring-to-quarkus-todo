@@ -8,7 +8,7 @@
   <name>spring-to-quarkus-todo</name>
   <description>A Todo application that builds and runs as either Spring Boot and Quarkus!</description>
   <properties>
-    <compiler-plugin.version>3.12.1</compiler-plugin.version>
+    <compiler-plugin.version>3.13.0</compiler-plugin.version>
     <java.version>17</java.version>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
