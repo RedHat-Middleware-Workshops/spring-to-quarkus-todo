@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.2</version>
+		<version>3.3.1</version>
 		<relativePath/>
 	</parent>
 	<groupId>io.quarkus</groupId>
@@ -16,8 +16,8 @@
 		<java.version>17</java.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<compiler-plugin.version>3.12.1</compiler-plugin.version>
-		<surefire-plugin.version>3.2.5</surefire-plugin.version>
+		<compiler-plugin.version>3.13.0</compiler-plugin.version>
+		<surefire-plugin.version>3.3.0</surefire-plugin.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
