@@ -53,15 +53,17 @@ The completed solution to this exercise can be found in this repo's `solution` b
 
    You should see the standard Spring Boot Banner:
    ```shell
+   
      .   ____          _            __ _ _
     /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
    ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
      '  |____| .__|_| |_|_| |_\__, | / / / /
     =========|_|==============|___/=/_/_/_/
-    :: Spring Boot ::                (v3.2.2)
+
+    :: Spring Boot ::                (v3.3.1)
    
-   INFO 10411 --- [  restartedMain] com.acme.todo.TodoApplication            : Started TodoApplication in 2.249 seconds (process running for 2.437)
+   INFO 71818 --- [  restartedMain] com.acme.todo.TodoApplication            : Started TodoApplication in 2.411 seconds (process running for 2.602)
    ```
 3. Open your browser to http://localhost:8080. You should see
 
@@ -175,7 +177,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 
 1. In your editor/IDE, open [`pom.xml`](pom.xml)
 2. Find the `<parent>` section and remove it
-3. In the `<properties>` section, add `<quarkus.platform.version>3.7.3</quarkus.platform.version>`
+3. In the `<properties>` section, add `<quarkus.platform.version>3.11.3</quarkus.platform.version>`
 4. After the `<properties>` section find the `<dependencyManagement>` section and add the following inside the `<dependencies>`:
    ```xml
    <dependency> 
@@ -205,16 +207,13 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    </dependency>
    ```
    
-   Additionally, the documentation on the issue mentions that [Starting with Quarkus version 2.5, the underlying JAX-RS engine must be chosen](https://github.com/quarkusio/quarkus/wiki/Migration-Guide-2.5#spring-web). The RESTEasy Reactive extension has better performance than the RESTEasy Classic extension, so we will use that.
+   Additionally, the documentation on the issue mentions that [Starting with Quarkus version 2.5, the underlying JAX-RS engine must be chosen](https://github.com/quarkusio/quarkus/wiki/Migration-Guide-2.5#spring-web).
 
-> [!TIP]
-> Selecting the RESTEasy Reactive extension does not mean we are (or have to) build a reactive application. It only affects the underlying engine. See [RESTEasy Reactive - To block or not to block](https://quarkus.io/blog/resteasy-reactive-smart-dispatch/), [Massive performance without headaches](https://quarkus.io/blog/resteasy-reactive-faq/), and [A UI thread and a worker thread walk into a bar: a microbenchmark story](https://quarkus.io/blog/io-thread-benchmark/) for more information.
-
-   In `pom.xml`, add the `quarkus-resteasy-reactive-jackson` extension to the `<dependencies>` section:
+   In `pom.xml`, add the `quarkus-rest-jackson` extension to the `<dependencies>` section:
    ```xml
    <dependency>
      <groupId>io.quarkus</groupId>
-     <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+     <artifactId>quarkus-rest-jackson</artifactId>
    </dependency>
    ```
 
@@ -261,7 +260,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    <dependency>
      <groupId>org.springdoc</groupId>
      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-     <version>2.3.0</version>
+     <version>2.5.0</version>
    </dependency>
    ```
 
@@ -451,7 +450,8 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
           </property>
         </activation>
         <properties>
-          <quarkus.package.type>native</quarkus.package.type>
+          <quarkus.native.enabled>true</quarkus.native.enabled>
+          <quarkus.package.jar.enabled>false</quarkus.package.jar.enabled>
         </properties>
       </profile>
     </profiles>
@@ -477,7 +477,7 @@ A Spring Boot application also contains a "main" class with the `@SpringBootAppl
    <dependency>
      <groupId>org.springframework.boot</groupId>
      <artifactId>spring-boot-autoconfigure</artifactId>
-     <version>3.2.2</version>
+     <version>3.3.1</version>
      <optional>true</optional>
    </dependency>
    ```
@@ -499,13 +499,13 @@ Some issues that weren't caught by the tool but also need to be fixed:
     </dependency>
     ```
    
-    and add `<version>3.25.3</version>` because the Quarkus BOM does not manage the version of the [AssertJ](https://assertj.github.io/doc/) dependency. The resulting dependency should be
+    and add `<version>3.26.0</version>` because the Quarkus BOM does not manage the version of the [AssertJ](https://assertj.github.io/doc/) dependency. The resulting dependency should be
 
     ```xml
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.25.3</version>
+      <version>3.26.0</version>
       <scope>test</scope>
     </dependency>
     ```
@@ -517,7 +517,7 @@ Some issues that weren't caught by the tool but also need to be fixed:
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>testcontainers-bom</artifactId>
-      <version>1.19.5</version>
+      <version>1.19.8</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -597,16 +597,15 @@ Now let's re-analyze the application to see how much of the migration has been c
 
 6. The Quarkus application should start up, and you should see the Quarkus banner:
    ```shell
-   INFO  [io.qua.dat.dep.dev.DevServicesDatasourceProcessor] (build-51) Dev Services for default datasource (postgresql) started - container ID is bf800e67365f
-   INFO  [io.qua.hib.orm.dep.dev.HibernateOrmDevServicesProcessor] (build-15) Setting quarkus.hibernate-orm.database.generation=drop-and-create to initialize Dev Services managed database
+   INFO  [io.qua.dat.dep.dev.DevServicesDatasourceProcessor] (build-8) Dev Services for default datasource (postgresql) started - container ID is a440b4c6e51e
    __  ____  __  _____   ___  __ ____  ______ 
     --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
     -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
    --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-
-   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 3.7.3) started in 5.663s. Listening on: http://localhost:8080
+   WARN  [org.hib.eng.jdb.spi.SqlExceptionHelper] (JPA Startup Thread) SQL Warning Code: 0, SQLState: 00000
+   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 3.11.3) started in 3.404s. Listening on: http://localhost:8080
    INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
-   INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, hibernate-validator, jdbc-postgresql, micrometer, narayana-jta, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui, vertx]
+   INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, hibernate-validator, jdbc-postgresql, micrometer, narayana-jta, rest, rest-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui, vertx]
    ```
 
    > Notice the line `Dev Services for the default datasource (postgresql) started`. [Quarkus Dev Services](https://quarkus.io/guides/dev-services) noticed the PostgreSQL extension on the classpath and started a PostgreSQL container image automatically, while also automatically setting all the configuration properties for the application to communicate with it!
