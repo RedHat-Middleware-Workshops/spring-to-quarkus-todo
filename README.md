@@ -593,16 +593,15 @@ Now let's re-analyze the application to see how much of the migration has been c
 
 6. The Quarkus application should start up, and you should see the Quarkus banner:
    ```shell
-   INFO  [io.qua.dat.dep.dev.DevServicesDatasourceProcessor] (build-51) Dev Services for default datasource (postgresql) started - container ID is bf800e67365f
-   INFO  [io.qua.hib.orm.dep.dev.HibernateOrmDevServicesProcessor] (build-15) Setting quarkus.hibernate-orm.database.generation=drop-and-create to initialize Dev Services managed database
+   INFO  [io.qua.dat.dep.dev.DevServicesDatasourceProcessor] (build-8) Dev Services for default datasource (postgresql) started - container ID is a440b4c6e51e
    __  ____  __  _____   ___  __ ____  ______ 
     --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
     -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
    --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-
-   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 3.11.3) started in 5.663s. Listening on: http://localhost:8080
+   WARN  [org.hib.eng.jdb.spi.SqlExceptionHelper] (JPA Startup Thread) SQL Warning Code: 0, SQLState: 00000
+   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 3.11.3) started in 3.404s. Listening on: http://localhost:8080
    INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
-   INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, hibernate-validator, jdbc-postgresql, micrometer, narayana-jta, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui, vertx]
+   INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, hibernate-validator, jdbc-postgresql, micrometer, narayana-jta, rest, rest-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui, vertx]
    ```
 
    > Notice the line `Dev Services for the default datasource (postgresql) started`. [Quarkus Dev Services](https://quarkus.io/guides/dev-services) noticed the PostgreSQL extension on the classpath and started a PostgreSQL container image automatically, while also automatically setting all the configuration properties for the application to communicate with it!
