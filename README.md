@@ -36,7 +36,7 @@ The completed solution to this exercise can be found in this repo's `solution` b
 # Run the application
 1. Start the required PostgreSQL database:
    ```
-   docker run -it --rm --name tododb -e POSTGRES_USER=todo -e POSTGRES_PASSWORD=todo -e POSTGRES_DB=tododb -p 5432:5432 postgres:14
+   docker run -it --rm --name tododb -e POSTGRES_USER=todo -e POSTGRES_PASSWORD=todo -e POSTGRES_DB=tododb -p 5432:5432 postgres:17
    ```
 
 > [!NOTE]
@@ -57,7 +57,7 @@ The completed solution to this exercise can be found in this repo's `solution` b
      '  |____| .__|_| |_|_| |_\__, | / / / /
     =========|_|==============|___/=/_/_/_/
 
-    :: Spring Boot ::                (v3.3.1)
+    :: Spring Boot ::                (v3.4.3)
    
    INFO 71818 --- [  restartedMain] com.acme.todo.TodoApplication            : Started TodoApplication in 2.411 seconds (process running for 2.602)
    ```
@@ -173,7 +173,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
 
 1. In your editor/IDE, open [`pom.xml`](pom.xml)
 2. Find the `<parent>` section and remove it
-3. In the `<properties>` section, add `<quarkus.platform.version>3.11.3</quarkus.platform.version>`
+3. In the `<properties>` section, add `<quarkus.platform.version>3.19.2</quarkus.platform.version>`
 4. After the `<properties>` section find the `<dependencyManagement>` section and add the following inside the `<dependencies>`:
    ```xml
    <dependency> 
@@ -256,7 +256,7 @@ While we're in `pom.xml` we may as well fix all the issues related to it.
    <dependency>
      <groupId>org.springdoc</groupId>
      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-     <version>2.5.0</version>
+     <version>2.8.5</version>
    </dependency>
    ```
 
@@ -473,7 +473,7 @@ A Spring Boot application also contains a "main" class with the `@SpringBootAppl
    <dependency>
      <groupId>org.springframework.boot</groupId>
      <artifactId>spring-boot-autoconfigure</artifactId>
-     <version>3.3.1</version>
+     <version>3.4.3</version>
      <optional>true</optional>
    </dependency>
    ```
@@ -495,13 +495,13 @@ Some issues that weren't caught by the tool but also need to be fixed:
     </dependency>
     ```
    
-    and add `<version>3.26.0</version>` because the Quarkus BOM does not manage the version of the [AssertJ](https://assertj.github.io/doc/) dependency. The resulting dependency should be
+    and add `<version>3.27.3</version>` because the Quarkus BOM does not manage the version of the [AssertJ](https://assertj.github.io/doc/) dependency. The resulting dependency should be
 
     ```xml
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.26.0</version>
+      <version>3.27.3</version>
       <scope>test</scope>
     </dependency>
     ```
@@ -513,7 +513,7 @@ Some issues that weren't caught by the tool but also need to be fixed:
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>testcontainers-bom</artifactId>
-      <version>1.19.8</version>
+      <version>1.20.6</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -542,7 +542,7 @@ Some issues that weren't caught by the tool but also need to be fixed:
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>spring-mock-mvc</artifactId>
-      <version>5.4.0</version>
+      <version>5.5.1</version>
       <scope>test</scope>
     </dependency>
     ```
@@ -599,7 +599,7 @@ Now let's re-analyze the application to see how much of the migration has been c
     -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
    --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
    WARN  [org.hib.eng.jdb.spi.SqlExceptionHelper] (JPA Startup Thread) SQL Warning Code: 0, SQLState: 00000
-   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 3.11.3) started in 3.404s. Listening on: http://localhost:8080
+   INFO  [io.quarkus] (Quarkus Main Thread) spring-to-quarkus-todo 0.0.1-SNAPSHOT on JVM (powered by Quarkus 3.19.2) started in 3.404s. Listening on: http://localhost:8080
    INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
    INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, hibernate-validator, jdbc-postgresql, micrometer, narayana-jta, rest, rest-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, spring-data-jpa, spring-di, spring-web, swagger-ui, vertx]
    ```
