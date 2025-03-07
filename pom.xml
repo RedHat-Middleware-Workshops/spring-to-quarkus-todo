@@ -8,12 +8,12 @@
   <name>spring-to-quarkus-todo</name>
   <description>A Todo application that builds and runs as either Spring Boot and Quarkus!</description>
   <properties>
-    <compiler-plugin.version>3.13.0</compiler-plugin.version>
+    <compiler-plugin.version>3.14.0</compiler-plugin.version>
     <java.version>17</java.version>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
-    <quarkus.platform.version>3.11.3</quarkus.platform.version>
-    <surefire-plugin.version>3.5.0</surefire-plugin.version>
+    <quarkus.platform.version>3.19.2</quarkus.platform.version>
+    <surefire-plugin.version>3.5.2</surefire-plugin.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -62,7 +62,7 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>
-      <version>3.3.2</version>
+      <version>3.4.3</version>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -87,7 +87,7 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.26.0</version>
+      <version>3.27.3</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
