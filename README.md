@@ -772,7 +772,7 @@ Since we already have a Docker runtime we'll use the [Docker container image ext
 
 4. Once the native image build is complete, start the PostgreSQL database container needed by the application:
    ```shell
-   docker run -it --rm --name tododb -e POSTGRES_USER=todo -e POSTGRES_PASSWORD=todo -e POSTGRES_DB=tododb -p 5432:5432 postgres:14
+   docker run -it --rm --name tododb -e POSTGRES_USER=todo -e POSTGRES_PASSWORD=todo -e POSTGRES_DB=tododb -p 5432:5432 postgres:17
    ```
 
    > Quarkus Dev Services is only available in development mode. Running a native executable runs in production mode.
